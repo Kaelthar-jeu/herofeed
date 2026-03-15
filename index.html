@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Hero Feed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,300;0,400;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#08080f;--bg2:#0e0e1a;--bg3:#141428;--bg4:#1a1a32;
+  --border:#2a2a4a;--border2:#3a3a6a;
+  --texte:#d0d0f0;--texte-dim:#7070a0;--texte-clair:#f0f0ff;
+  --violet:#7a20e0;--violet-vif:#9a40ff;--violet-dim:#4a1090;
+  --cyan:#00c8e0;--cyan-dim:#006878;--cyan-vif:#40e8ff;
+  --or:#d4a830;--rouge:#e02040;--vert:#20c060;
+  --mono:'Share Tech Mono',monospace;
+  --titre:'Rajdhani',sans-serif;
+  --corps:'Noto Serif',Georgia,serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--texte);font-family:var(--corps);font-size:16px;line-height:1.7;overflow-x:hidden;}
+
+/* Grille energy */
+body::before{content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(122,32,224,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(122,32,224,0.04) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;}
+
+/* ── BARRE STUDIO ── */
+.studio-bar{position:relative;z-index:10;background:#050508;border-bottom:1px solid var(--violet-dim);padding:6px 16px;text-align:center;}
+.studio-bar a{color:var(--texte-dim);font-size:11px;text-decoration:none;letter-spacing:3px;font-family:var(--mono);transition:color 0.2s;}
+.studio-bar a:hover{color:var(--cyan);}
+
+/* ── ÉCRAN INTRO ── */
+#ecran-intro{
+  position:fixed;inset:0;z-index:300;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;overflow:hidden;
+}
+/* Orbes d'énergie */
+#ecran-intro::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(122,32,224,0.15) 0%,transparent 70%);
+  top:-200px;right:-200px;animation:pulse-orb 4s ease-in-out infinite alternate;}
+#ecran-intro::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(0,200,224,0.1) 0%,transparent 70%);
+  bottom:-100px;left:-100px;animation:pulse-orb 3s ease-in-out infinite alternate-reverse;}
+@keyframes pulse-orb{from{transform:scale(1);}to{transform:scale(1.2);}}
+
+.intro-inner{max-width:560px;width:100%;text-align:center;position:relative;z-index:1;}
+.intro-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--cyan);text-transform:uppercase;margin-bottom:32px;animation:app 0.8s ease 0.1s both;}
+.intro-tv-label{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:8px;animation:app 0.8s ease 0.15s both;}
+.intro-tv-bar{width:200px;height:4px;background:var(--bg3);margin:0 auto 32px;border-radius:2px;overflow:hidden;animation:app 0.8s ease 0.2s both;}
+.intro-tv-fill{height:100%;width:1.5%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:2px;animation:tv-boot 2s ease 1s forwards;}
+@keyframes tv-boot{to{width:1.5%;}}
+.intro-titre{font-family:var(--titre);font-size:clamp(72px,18vw,130px);font-weight:700;line-height:0.85;letter-spacing:-1px;text-transform:uppercase;animation:app 0.8s ease 0.3s both;}
+.intro-titre .h{color:var(--violet-vif);text-shadow:0 0 40px rgba(154,64,255,0.6);}
+.intro-titre .f{color:var(--cyan);text-shadow:0 0 40px rgba(0,200,224,0.6);}
+.intro-sep{display:flex;align-items:center;gap:12px;margin:24px 0;animation:app 0.8s ease 0.45s both;}
+.intro-sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--violet-dim),transparent);}
+.intro-sep-dot{width:4px;height:4px;background:var(--cyan);border-radius:50%;flex-shrink:0;}
+.intro-accroche{font-family:var(--corps);font-size:14px;font-style:italic;color:var(--texte-dim);line-height:1.9;margin-bottom:48px;animation:app 0.8s ease 0.55s both;}
+.intro-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:app 0.8s ease 0.7s both;}
+.btn-intro-p{background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--titre);font-size:16px;font-weight:600;letter-spacing:3px;padding:14px 40px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
+.btn-intro-p:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
+.btn-intro-s{display:none;background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:11px;letter-spacing:3px;padding:14px 24px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
+.btn-intro-s:hover{border-color:var(--cyan);color:var(--cyan);}
+@keyframes app{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── ÉCRAN SETUP ── */
+#ecran-setup{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;
+}
+.setup-wrap{max-width:620px;margin:auto;padding:40px 0;}
+.setup-entete{margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+.setup-tag{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+.setup-titre{font-family:var(--titre);font-size:36px;font-weight:700;color:var(--texte-clair);letter-spacing:1px;}
+.setup-titre span{color:var(--violet-vif);}
+.setup-bloc{margin-bottom:28px;}
+.setup-label{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);display:block;margin-bottom:8px;}
+.setup-input{width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:14px;padding:10px 12px;outline:none;transition:border-color 0.2s;border-radius:0;}
+.setup-input:focus{border-bottom-color:var(--violet-vif);}
+.setup-input::placeholder{color:var(--texte-dim);}
+
+/* Agence */
+.agence-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.agence-carte{background:var(--bg3);border:2px solid var(--border);padding:16px 12px;cursor:pointer;transition:all 0.2s;text-align:center;position:relative;overflow:hidden;}
+.agence-carte::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.2s;}
+.agence-carte[data-agence="APEX"]::before{background:linear-gradient(135deg,rgba(122,32,224,0.15),transparent);}
+.agence-carte[data-agence="ORIGIN"]::before{background:linear-gradient(135deg,rgba(0,200,224,0.15),transparent);}
+.agence-carte[data-agence="SHADOW"]::before{background:linear-gradient(135deg,rgba(212,168,48,0.15),transparent);}
+.agence-carte:hover{border-color:var(--border2);}
+.agence-carte:hover::before,.agence-carte.sel::before{opacity:1;}
+.agence-carte.sel[data-agence="APEX"]{border-color:var(--violet-vif);}
+.agence-carte.sel[data-agence="ORIGIN"]{border-color:var(--cyan);}
+.agence-carte.sel[data-agence="SHADOW"]{border-color:var(--or);}
+.agence-nom{font-family:var(--titre);font-size:18px;font-weight:700;color:var(--texte-clair);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.agence-nom[data-c="violet"]{color:var(--violet-vif);}
+.agence-nom[data-c="cyan"]{color:var(--cyan);}
+.agence-nom[data-c="or"]{color:var(--or);}
+.agence-desc{font-family:var(--corps);font-size:11px;font-style:italic;color:var(--texte-dim);line-height:1.4;}
+
+/* Pouvoir */
+.pouvoir-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pouvoir-carte{background:var(--bg3);border:2px solid var(--border);padding:14px;cursor:pointer;transition:all 0.2s;}
+.pouvoir-carte:hover{border-color:var(--border2);}
+.pouvoir-carte.sel{border-color:var(--violet-vif);background:rgba(122,32,224,0.08);}
+.pouvoir-nom{font-family:var(--titre);font-size:15px;font-weight:600;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.pouvoir-desc{font-family:var(--mono);font-size:10px;color:var(--texte-dim);line-height:1.4;}
+
+/* Profil communication */
+.profil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.profil-carte{background:var(--bg3);border:2px solid var(--border);padding:12px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.profil-carte:hover{border-color:var(--border2);}
+.profil-carte.sel{border-color:var(--cyan);background:rgba(0,200,224,0.08);}
+.profil-nom{font-family:var(--titre);font-size:13px;font-weight:600;color:var(--texte-clair);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.profil-desc{font-family:var(--mono);font-size:9px;color:var(--texte-dim);line-height:1.4;}
+
+/* Mode */
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mode-carte{background:var(--bg3);border:2px solid var(--border);padding:12px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.mode-carte:hover{border-color:var(--border2);}
+.mode-carte.sel{border-color:var(--violet-vif);background:rgba(122,32,224,0.08);}
+.mode-nom{font-family:var(--titre);font-size:14px;font-weight:600;color:var(--texte-clair);text-transform:uppercase;letter-spacing:1px;}
+.mode-desc{font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:3px;}
+
+/* Slider */
+.slider-wrap{display:flex;align-items:center;gap:12px;}
+.slider{flex:1;-webkit-appearance:none;height:3px;background:var(--border2);outline:none;border-radius:2px;}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:linear-gradient(135deg,var(--violet-vif),var(--cyan));cursor:pointer;border-radius:50%;}
+.slider-val{font-family:var(--titre);font-size:20px;font-weight:600;color:var(--cyan);min-width:32px;}
+
+.checkbox-wrap{display:flex;align-items:center;gap:10px;cursor:pointer;margin-top:8px;}
+.checkbox-wrap input{accent-color:var(--violet-vif);cursor:pointer;}
+.checkbox-label{font-family:var(--mono);font-size:10px;color:var(--texte-dim);letter-spacing:1px;}
+
+.btn-setup{width:100%;background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--titre);font-size:16px;font-weight:600;letter-spacing:3px;padding:16px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;margin-top:8px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
+.btn-setup:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
+.btn-setup:disabled{background:var(--bg4);cursor:not-allowed;clip-path:none;}
+
+/* ── REPRISE ── */
+#ecran-reprise{display:none;position:fixed;inset:0;z-index:250;background:rgba(8,8,15,0.97);align-items:center;justify-content:center;padding:20px;}
+.reprise-box{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--violet-vif);max-width:440px;width:100%;padding:36px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);}
+.reprise-tag{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+.reprise-titre{font-family:var(--titre);font-size:26px;font-weight:700;color:var(--texte-clair);margin-bottom:24px;}
+.reprise-info{margin-bottom:24px;border-left:2px solid var(--violet-dim);padding-left:14px;}
+.reprise-ligne{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;font-family:var(--mono);}
+.reprise-cle{color:var(--texte-dim);}
+.reprise-val{color:var(--cyan);font-weight:500;}
+.reprise-btns{display:flex;gap:10px;}
+.reprise-btn{flex:1;padding:12px;border:none;font-family:var(--mono);font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
+.rbp{background:linear-gradient(135deg,var(--violet),var(--cyan-dim));color:#fff;}
+.rbp:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
+.rbn{background:var(--bg3);color:var(--texte-dim);border:1px solid var(--border2);}
+.rbn:hover{border-color:var(--violet-dim);color:var(--texte);}
+
+/* ── APP ── */
+#app{display:flex;flex-direction:column;min-height:100vh;max-width:1200px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 12px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.logo{font-family:var(--titre);font-size:22px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.logo .h{color:var(--violet-vif);}
+.logo .f{color:var(--cyan);}
+.header-droite{display:flex;align-items:center;gap:14px;}
+.tv-hdr{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--cyan);}
+.sauv{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+.sauv.ok{color:var(--vert);}
+.sauv.cours{color:var(--or);}
+
+.main{display:flex;flex:1;gap:14px;padding:14px 0;min-height:0;}
+
+/* ── PANNEAU HEROS ── */
+.hero-panel{width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:calc(100vh - 80px);position:sticky;top:0;}
+.hp-bloc{background:var(--bg2);border:1px solid var(--border);position:relative;z-index:5;}
+.hp-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);background:var(--bg3);padding:5px 12px;border-bottom:1px solid var(--border);}
+.hp-inner{padding:12px 14px;}
+
+/* Trust Value display */
+.tv-display{padding:16px 14px;text-align:center;background:linear-gradient(180deg,var(--bg2),var(--bg3));border-bottom:2px solid var(--violet-dim);}
+.tv-score{font-family:var(--titre);font-size:42px;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--violet-vif),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.tv-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--texte-dim);text-transform:uppercase;margin-top:2px;}
+.tv-tier{font-family:var(--titre);font-size:11px;font-weight:600;color:var(--or);letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
+.tv-barre-wrap{background:var(--bg4);height:4px;margin-top:8px;border-radius:2px;overflow:hidden;}
+.tv-barre{height:100%;background:linear-gradient(90deg,var(--violet-vif),var(--cyan));transition:width 0.5s ease;border-radius:2px;}
+
+.hero-id{text-align:center;padding:14px 12px;}
+.hero-nom-hero{font-family:var(--titre);font-size:18px;font-weight:700;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;}
+.hero-nom-civil{font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:2px;}
+.hero-agence{font-family:var(--mono);font-size:9px;letter-spacing:2px;margin-top:6px;text-transform:uppercase;}
+.agence-apex{color:var(--violet-vif);}
+.agence-origin{color:var(--cyan);}
+.agence-shadow{color:var(--or);}
+
+.hp-ligne{display:flex;justify-content:space-between;align-items:center;padding:3px 0;}
+.hp-nom{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+.hp-val{font-family:var(--mono);font-size:11px;color:var(--cyan);font-weight:500;}
+.hp-barre-wrap{background:var(--bg4);height:2px;margin-top:2px;margin-bottom:5px;overflow:hidden;border-radius:1px;}
+.hp-barre{height:100%;background:var(--violet-vif);transition:width 0.4s ease;border-radius:1px;}
+.hp-barre.cyan{background:var(--cyan);}
+.hp-barre.or{background:var(--or);}
+.hp-barre.rouge{background:var(--rouge);}
+.hp-barre.vert{background:var(--vert);}
+
+.followers-display{text-align:center;padding:10px 14px;}
+.followers-count{font-family:var(--titre);font-size:24px;font-weight:700;color:var(--violet-vif);}
+.followers-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--texte-dim);text-transform:uppercase;}
+
+.inv-item{font-family:var(--mono);font-size:10px;color:var(--texte-dim);padding:3px 0;border-bottom:1px solid var(--border);}
+.inv-item:last-child{border-bottom:none;}
+.inv-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
+
+.btn-prem{width:100%;padding:11px;background:linear-gradient(135deg,var(--violet-dim),var(--cyan-dim));color:#fff;border:none;font-family:var(--mono);font-size:9px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity 0.2s;}
+.btn-prem:hover{opacity:0.85;}
+
+/* ── PANNEAU JEU ── */
+.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;gap:10px;position:relative;z-index:5;}
+#recit{flex:1;background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--violet-dim);padding:22px;overflow-y:auto;min-height:0;position:relative;z-index:5;}
+.entree{margin-bottom:22px;animation:fadeIn 0.35s ease;position:relative;z-index:5;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.entree p{font-family:var(--corps);font-size:16px;line-height:1.9;color:var(--texte);margin-bottom:10px;}
+.action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:7px 12px;border-left:3px solid var(--violet-dim);margin-bottom:12px;background:rgba(122,32,224,0.05);}
+
+/* Post réseau social */
+.post-social{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--cyan);padding:14px 16px;margin:10px 0;}
+.post-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.post-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--violet-dim),var(--cyan-dim));display:flex;align-items:center;justify-content:center;font-family:var(--titre);font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.post-auteur{font-family:var(--mono);font-size:11px;color:var(--cyan);}
+.post-date{font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-left:auto;}
+.post-texte{font-family:var(--corps);font-size:13px;color:var(--texte);line-height:1.6;}
+.post-stats{font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:8px;}
+
+/* Moment TV */
+.tv-moment{background:linear-gradient(135deg,rgba(122,32,224,0.15),rgba(0,200,224,0.1));border:1px solid var(--violet-dim);padding:16px 20px;margin:10px 0;text-align:center;}
+.tv-moment-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
+.tv-moment-valeur{font-family:var(--titre);font-size:24px;font-weight:700;color:var(--texte-clair);}
+.tv-moment-valeur.hausse{color:var(--vert);}
+.tv-moment-valeur.baisse{color:var(--rouge);}
+
+.maj-stats{font-family:var(--mono);font-size:11px;color:var(--cyan);padding:6px 10px;background:rgba(0,200,224,0.06);border-left:2px solid var(--cyan-dim);margin-top:8px;letter-spacing:1px;}
+.sep{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.curseur{display:inline-block;width:2px;height:14px;background:var(--violet-vif);animation:clign 0.7s infinite;vertical-align:text-bottom;margin-left:2px;}
+@keyframes clign{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+
+/* Choix */
+.choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-top:2px solid var(--violet-vif);padding:14px 16px;margin-top:12px;position:relative;z-index:10;}
+.choix-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);margin-bottom:10px;}
+.choix-btn{display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;color:var(--texte-clair);font-family:var(--corps);font-size:14px;padding:11px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;position:relative;z-index:10;pointer-events:auto;}
+.choix-btn:hover{background:rgba(122,32,224,0.15);border-left-color:var(--violet-vif);border-color:var(--violet-dim);}
+.choix-btn:last-child{margin-bottom:0;}
+
+/* Input zone */
+.input-zone{display:flex;gap:8px;flex-shrink:0;position:relative;z-index:5;}
+#input-joueur{flex:1;background:var(--bg2);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--corps);font-size:14px;padding:12px 14px;resize:none;height:52px;outline:none;transition:border-color 0.2s;}
+#input-joueur:focus{border-bottom-color:var(--violet-vif);}
+#input-joueur::placeholder{color:var(--texte-dim);font-style:italic;}
+#input-joueur:disabled{opacity:0.4;}
+#btn-envoyer{background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:0 18px;cursor:pointer;transition:all 0.2s;flex-shrink:0;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);}
+#btn-envoyer:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
+#btn-envoyer:disabled{background:var(--bg4);cursor:not-allowed;clip-path:none;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--violet-dim);border-radius:2px;}
+::-webkit-scrollbar-thumb:hover{background:var(--violet-vif);}
+
+/* Mobile */
+@media(max-width:700px){
+  #app{padding:0 8px;}
+  .main{flex-direction:column;gap:8px;padding:8px 0;}
+  .hero-panel{width:100%;max-height:none;position:static;flex-direction:row;flex-wrap:wrap;gap:8px;overflow:visible;}
+  .hero-panel > div{min-width:140px;flex:1;}
+  #recit{min-height:260px;max-height:48vh;padding:14px;}
+  .entree p{font-size:15px;}
+  .logo{font-size:17px;}
+  .agence-grid,.profil-grid{grid-template-columns:1fr;}
+  .pouvoir-grid,.mode-grid{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="studio-bar">
+  <a href="https://recitgames.vercel.app">&#9664; RÉCIT GAMES</a>
+</div>
+
+<!-- INTRO -->
+<div id="ecran-intro">
+  <div class="intro-inner">
+    <div class="intro-tag">Neo-Tokyo · Trust Value System · Roman interactif</div>
+    <div class="intro-tv-label">Trust Value</div>
+    <div class="intro-tv-bar"><div class="intro-tv-fill"></div></div>
+    <div class="intro-titre"><span class="h">HERO</span><br><span class="f">FEED</span></div>
+    <div class="intro-sep">
+      <div class="intro-sep-line"></div>
+      <div class="intro-sep-dot"></div>
+      <div class="intro-sep-line"></div>
+    </div>
+    <div class="intro-accroche">
+      Sauver des gens ne suffit pas.<br>
+      Il faut être aimé en le faisant.<br>
+      La foule est ta batterie.
+    </div>
+    <div class="intro-btns">
+      <button class="btn-intro-p" onclick="afficherSetup()">Créer son héros</button>
+      <button class="btn-intro-s" id="btn-reprendre-intro" onclick="clicReprendre()">Reprendre</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="ecran-setup">
+  <div class="setup-wrap">
+    <div class="setup-entete">
+      <div class="setup-tag">Création du héros — Neo-Tokyo</div>
+      <div class="setup-titre"><span>Hero</span> Feed</div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Clé API Anthropic</label>
+      <input class="setup-input" type="password" id="api-key" placeholder="sk-ant-api03-..." autocomplete="off"/>
+      <label class="checkbox-wrap">
+        <input type="checkbox" id="se-souvenir"/>
+        <span class="checkbox-label">Se souvenir sur cet appareil</span>
+      </label>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Nom civil</label>
+      <input class="setup-input" type="text" id="prenom-input" placeholder="Prénom Nom..." maxlength="30"/>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Nom de héros</label>
+      <input class="setup-input" type="text" id="nom-hero-input" placeholder="Le nom que la foule crie..." maxlength="25"/>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Âge</label>
+      <div class="slider-wrap">
+        <input type="range" class="slider" id="age-slider" min="17" max="25" value="19"/>
+        <span class="slider-val" id="age-val">19</span>
+      </div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Agence</label>
+      <div class="agence-grid">
+        <div class="agence-carte" data-agence="APEX" onclick="choisirAgence('APEX')">
+          <div class="agence-nom" data-c="violet">APEX</div>
+          <div class="agence-desc">L'agence dominante. Marketing total. TV rapide — autonomie sacrifiée.</div>
+        </div>
+        <div class="agence-carte" data-agence="ORIGIN" onclick="choisirAgence('ORIGIN')">
+          <div class="agence-nom" data-c="cyan">ORIGIN</div>
+          <div class="agence-desc">L'agence idéaliste. Authenticité pure. TV stable — progression lente.</div>
+        </div>
+        <div class="agence-carte" data-agence="SHADOW" onclick="choisirAgence('SHADOW')">
+          <div class="agence-nom" data-c="or">SHADOW</div>
+          <div class="agence-desc">L'agence ambiguë. Méthodes opaques. TV explosive — histoire trouble.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Catégorie de pouvoir</label>
+      <div class="pouvoir-grid">
+        <div class="pouvoir-carte" id="pouvoir-Physique" onclick="choisirPouvoir('Physique')">
+          <div class="pouvoir-nom">Physique</div>
+          <div class="pouvoir-desc">Force, vitesse, résistance. Simple à comprendre pour le public.</div>
+        </div>
+        <div class="pouvoir-carte" id="pouvoir-Élémentaire" onclick="choisirPouvoir('Élémentaire')">
+          <div class="pouvoir-nom">Élémentaire</div>
+          <div class="pouvoir-desc">Feu, eau, foudre, glace. Spectaculaire — dégâts collatéraux fréquents.</div>
+        </div>
+        <div class="pouvoir-carte" id="pouvoir-Psychique" onclick="choisirPouvoir('Psychique')">
+          <div class="pouvoir-nom">Psychique</div>
+          <div class="pouvoir-desc">Télékinèse, télépathie. Difficile à expliquer — fans très engagés.</div>
+        </div>
+        <div class="pouvoir-carte" id="pouvoir-Technique" onclick="choisirPouvoir('Technique')">
+          <div class="pouvoir-nom">Technique</div>
+          <div class="pouvoir-desc">Pas de pouvoir inné. La TV amplifie la technologie de façon inexplicable.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Profil de communication</label>
+      <div class="profil-grid">
+        <div class="profil-carte" id="profil-Authentique" onclick="choisirProfil('Authentique')">
+          <div class="profil-nom">Authentique</div>
+          <div class="profil-desc">Ce qu'il montre est ce qu'il est. TV stable mais lente.</div>
+        </div>
+        <div class="profil-carte" id="profil-Performeur" onclick="choisirProfil('Performeur')">
+          <div class="profil-nom">Performeur</div>
+          <div class="profil-desc">Sait ce que le public veut voir. TV rapide — fragile.</div>
+        </div>
+        <div class="profil-carte" id="profil-Mystérieux" onclick="choisirProfil('Mystérieux')">
+          <div class="profil-nom">Mystérieux</div>
+          <div class="profil-desc">Laisse les autres parler de lui. TV par fascination.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-bloc">
+      <label class="setup-label">Mode d'interaction</label>
+      <div class="mode-grid">
+        <div class="mode-carte sel" id="mode-boutons" onclick="choisirMode('boutons')">
+          <div class="mode-nom">Boutons</div>
+          <div class="mode-desc">4 choix proposés</div>
+        </div>
+        <div class="mode-carte" id="mode-libre" onclick="choisirMode('libre')">
+          <div class="mode-nom">Texte libre</div>
+          <div class="mode-desc">Tu décides</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-setup" id="btn-lancer" onclick="lancerJeu()" disabled>Entrer dans Neo-Tokyo</button>
+    <p style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);text-align:center;margin-top:12px;letter-spacing:1px;">Progression sauvegardée automatiquement</p>
+  </div>
+</div>
+
+<!-- REPRISE -->
+<div id="ecran-reprise">
+  <div class="reprise-box">
+    <div class="reprise-tag">Héros en attente</div>
+    <div class="reprise-titre">Hero Feed</div>
+    <div class="reprise-info" id="reprise-info"></div>
+    <div class="reprise-btns">
+      <button class="reprise-btn rbp" id="btn-continuer">Reprendre</button>
+      <button class="reprise-btn rbn" id="btn-nouvelle">Nouveau héros</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="logo"><span class="h">HERO</span> <span class="f">FEED</span></div>
+    <div class="header-droite">
+      <div class="tv-hdr">TV <span id="tv-hdr-val">15</span></div>
+      <div class="sauv" id="sauv-ind">● prêt</div>
+    </div>
+  </header>
+  <div class="main">
+    <div class="hero-panel">
+
+      <div class="hp-bloc">
+        <div class="tv-display">
+          <div class="tv-score" id="tv-score">15</div>
+          <div class="tv-label">Trust Value</div>
+          <div class="tv-tier" id="tv-tier">Inconnu</div>
+          <div class="tv-barre-wrap"><div class="tv-barre" id="tv-barre" style="width:1.5%"></div></div>
+        </div>
+      </div>
+
+      <div class="hp-bloc hero-id">
+        <div class="hero-nom-hero" id="h-nom-hero">—</div>
+        <div class="hero-nom-civil" id="h-nom-civil">—</div>
+        <div class="hero-agence agence-apex" id="h-agence">—</div>
+      </div>
+
+      <div class="hp-bloc">
+        <div class="hp-titre">Followers</div>
+        <div class="hp-inner followers-display">
+          <div class="followers-count" id="h-followers">0</div>
+          <div class="followers-label">abonnés</div>
+        </div>
+      </div>
+
+      <div class="hp-bloc">
+        <div class="hp-titre">Stats</div>
+        <div class="hp-inner">
+          <div class="hp-ligne"><span class="hp-nom">Puissance</span><span class="hp-val" id="s-puissance">30</span></div>
+          <div class="hp-barre-wrap"><div class="hp-barre" id="b-puissance" style="width:30%"></div></div>
+          <div class="hp-ligne"><span class="hp-nom">Agilité</span><span class="hp-val" id="s-agilite">30</span></div>
+          <div class="hp-barre-wrap"><div class="hp-barre cyan" id="b-agilite" style="width:30%"></div></div>
+          <div class="hp-ligne"><span class="hp-nom">Résistance</span><span class="hp-val" id="s-resistance">30</span></div>
+          <div class="hp-barre-wrap"><div class="hp-barre" id="b-resistance" style="width:30%"></div></div>
+          <div class="hp-ligne"><span class="hp-nom">Charisme</span><span class="hp-val" id="s-charisme">40</span></div>
+          <div class="hp-barre-wrap"><div class="hp-barre or" id="b-charisme" style="width:40%"></div></div>
+          <div class="hp-ligne"><span class="hp-nom">Stratégie</span><span class="hp-val" id="s-strategie">35</span></div>
+          <div class="hp-barre-wrap"><div class="hp-barre cyan" id="b-strategie" style="width:35%"></div></div>
+        </div>
+      </div>
+
+      <div class="hp-bloc">
+        <div class="hp-titre">Rang agence</div>
+        <div class="hp-inner">
+          <div class="hp-ligne"><span class="hp-nom">Rang</span><span class="hp-val" id="h-rang">Recrue</span></div>
+          <div class="hp-ligne"><span class="hp-nom">Arc</span><span class="hp-val" id="h-arc">1</span></div>
+          <div class="hp-ligne"><span class="hp-nom">Cash</span><span class="hp-val" id="h-cash">¥0</span></div>
+        </div>
+      </div>
+
+      <div class="hp-bloc">
+        <div class="hp-titre">Inventaire</div>
+        <div class="hp-inner">
+          <div id="inv-liste"><div class="inv-vide">Vide</div></div>
+        </div>
+      </div>
+
+      <div class="hp-bloc" style="padding:10px 14px;">
+        <button class="btn-prem" onclick="window.location.href='https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00'">
+          Premium — 7€/mois
+        </button>
+      </div>
+
+    </div>
+
+    <div class="jeu-panel">
+      <div id="recit"></div>
+      <div class="input-zone">
+        <textarea id="input-joueur" placeholder="Que fais-tu ?" style="display:none;"></textarea>
+        <button id="btn-envoyer" style="display:none;">Agir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const G = {
+  apiKey:'', nomCivil:'', nomHero:'', age:19, agence:'', pouvoir:'', profil:'', mode:'boutons',
+  tv:15, followers:0, cash:0, arc:1, rang:'Recrue',
+  nbChoix:0, inventaire:[], historique:[], saveTO:null, adminMode:false,
+  stats:{ puissance:30, agilite:30, resistance:30, charisme:40, strategie:35 }
+};
+const PAYWALL = 20;
+
+function getTvTier(tv){
+  if(tv<=100)return'Inconnu';
+  if(tv<=300)return'Héros local';
+  if(tv<=600)return'Héros régional';
+  if(tv<=850)return'Héros national';
+  return'Légende';
+}
+
+// ── SETUP ──
+function afficherSetup(){
+  document.getElementById('ecran-intro').style.display='none';
+  document.getElementById('ecran-setup').style.display='block';
+  const k=localStorage.getItem('hf_api_key');
+  if(k){document.getElementById('api-key').value=k;document.getElementById('se-souvenir').checked=true;}
+  const save=charger();
+  if(save){
+    if(save.nomCivil)document.getElementById('prenom-input').value=save.nomCivil;
+    if(save.nomHero)document.getElementById('nom-hero-input').value=save.nomHero;
+    if(save.age){document.getElementById('age-slider').value=save.age;document.getElementById('age-val').textContent=save.age;}
+    if(save.agence)choisirAgence(save.agence);
+    if(save.pouvoir)choisirPouvoir(save.pouvoir);
+    if(save.profil)choisirProfil(save.profil);
+    if(save.mode)choisirMode(save.mode);
+  }
+}
+function choisirAgence(a){
+  G.agence=a;
+  document.querySelectorAll('.agence-carte').forEach(c=>c.classList.remove('sel'));
+  document.querySelector(`.agence-carte[data-agence="${a}"]`)?.classList.add('sel');
+  verifierSetup();
+}
+function choisirPouvoir(p){
+  G.pouvoir=p;
+  document.querySelectorAll('.pouvoir-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('pouvoir-'+p)?.classList.add('sel');
+  // Stats selon pouvoir
+  if(p==='Physique'){Object.assign(G.stats,{puissance:50,resistance:45,agilite:35,charisme:35,strategie:30});}
+  else if(p==='Élémentaire'){Object.assign(G.stats,{puissance:45,agilite:40,resistance:30,charisme:40,strategie:30});}
+  else if(p==='Psychique'){Object.assign(G.stats,{puissance:30,agilite:35,resistance:30,charisme:45,strategie:50});}
+  else{Object.assign(G.stats,{puissance:35,agilite:40,resistance:35,charisme:40,strategie:50});}
+  verifierSetup();
+}
+function choisirProfil(p){
+  G.profil=p;
+  document.querySelectorAll('.profil-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('profil-'+p)?.classList.add('sel');
+  verifierSetup();
+}
+function choisirMode(m){
+  G.mode=m;
+  document.querySelectorAll('.mode-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('mode-'+m).classList.add('sel');
+  const inp=document.getElementById('input-joueur');
+  const btn=document.getElementById('btn-envoyer');
+  if(m==='boutons'){inp.style.display='none';btn.style.display='none';}
+  else{inp.style.display='flex';btn.style.display='flex';}
+}
+function verifierSetup(){
+  document.getElementById('btn-lancer').disabled=!(G.agence&&G.pouvoir&&G.profil);
+}
+document.getElementById('age-slider').addEventListener('input',function(){
+  G.age=parseInt(this.value);document.getElementById('age-val').textContent=this.value;
+});
+
+function lancerJeu(){
+  const k=document.getElementById('api-key').value.trim();
+  if(!k){alert('Entre ta clé API.');return;}
+  if(!G.agence||!G.pouvoir||!G.profil){alert('Complète tous les champs.');return;}
+  G.apiKey=k;
+  G.nomCivil=document.getElementById('prenom-input').value.trim()||'Hiro Tanaka';
+  G.nomHero=document.getElementById('nom-hero-input').value.trim()||'Zero';
+  G.age=parseInt(document.getElementById('age-slider').value);
+  if(document.getElementById('se-souvenir').checked)localStorage.setItem('hf_api_key',k);
+  const save=charger();
+  if(save&&save.historique&&save.historique.length>0&&save.agence===G.agence){
+    fromSave(save);document.getElementById('ecran-setup').style.display='none';
+    afficherReprise(save);return;
+  }
+  document.getElementById('ecran-setup').style.display='none';
+  choisirMode(G.mode);
+  miseAJourUI();envoyerPremier();
+}
+function clicReprendre(){
+  const save=charger();
+  if(!save){afficherSetup();return;}
+  const k=localStorage.getItem('hf_api_key');
+  if(k)G.apiKey=k;
+  document.getElementById('ecran-intro').style.display='none';
+  afficherSetup();
+}
+function afficherReprise(save){
+  const d1=new Date(save.date),d2=new Date();
+  const h=Math.floor((d2-d1)/3600000),jr=Math.floor(h/24);
+  const abs=jr>0?`${jr}j`:h>0?`${h}h`:'Récent';
+  document.getElementById('reprise-info').innerHTML=`
+    <div class="reprise-ligne"><span class="reprise-cle">Héros</span><span class="reprise-val">${save.nomHero}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Trust Value</span><span class="reprise-val">${save.tv}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Followers</span><span class="reprise-val">${(save.followers||0).toLocaleString()}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Agence</span><span class="reprise-val">${save.agence}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Absent</span><span class="reprise-val">${abs}</span></div>`;
+  document.getElementById('ecran-reprise').style.display='flex';
+  document.getElementById('btn-continuer').onclick=()=>{
+    document.getElementById('ecran-reprise').style.display='none';
+    choisirMode(G.mode);miseAJourUI();
+    envoyerMessage(`Je reprends. Je suis ${G.nomHero} (${G.nomCivil}), agence ${G.agence}, TV ${G.tv}, ${G.followers.toLocaleString()} followers. Arc ${G.arc}. Résume la situation et propose mes options.`);
+  };
+  document.getElementById('btn-nouvelle').onclick=()=>{
+    reinitialiser();document.getElementById('ecran-reprise').style.display='none';
+    choisirMode(G.mode);miseAJourUI();envoyerPremier();
+  };
+}
+
+// ── SAVE ──
+function sauvegarder(){
+  const d={nomCivil:G.nomCivil,nomHero:G.nomHero,age:G.age,agence:G.agence,pouvoir:G.pouvoir,
+    profil:G.profil,mode:G.mode,tv:G.tv,followers:G.followers,cash:G.cash,
+    arc:G.arc,rang:G.rang,nbChoix:G.nbChoix,inventaire:G.inventaire,
+    stats:G.stats,historique:G.historique.slice(-20),date:new Date().toISOString()};
+  localStorage.setItem('hero_feed_save',JSON.stringify(d));
+}
+function charger(){
+  const d=localStorage.getItem('hero_feed_save');
+  if(!d)return null;try{return JSON.parse(d);}catch(e){return null;}
+}
+function fromSave(s){
+  Object.assign(G,{nomCivil:s.nomCivil,nomHero:s.nomHero,age:s.age,agence:s.agence,
+    pouvoir:s.pouvoir,profil:s.profil,mode:s.mode||'boutons',tv:s.tv||15,
+    followers:s.followers||0,cash:s.cash||0,arc:s.arc||1,rang:s.rang||'Recrue',
+    nbChoix:s.nbChoix||0,inventaire:s.inventaire||[],historique:s.historique||[]});
+  if(s.stats)Object.assign(G.stats,s.stats);
+}
+function reinitialiser(){
+  G.tv=15;G.followers=0;G.cash=0;G.arc=1;G.rang='Recrue';
+  G.nbChoix=0;G.inventaire=[];G.historique=[];
+  if(G.pouvoir==='Physique'){Object.assign(G.stats,{puissance:50,resistance:45,agilite:35,charisme:35,strategie:30});}
+  else if(G.pouvoir==='Élémentaire'){Object.assign(G.stats,{puissance:45,agilite:40,resistance:30,charisme:40,strategie:30});}
+  else if(G.pouvoir==='Psychique'){Object.assign(G.stats,{puissance:30,agilite:35,resistance:30,charisme:45,strategie:50});}
+  else{Object.assign(G.stats,{puissance:35,agilite:40,resistance:35,charisme:40,strategie:50});}
+}
+function autoSave(){
+  if(G.saveTO)clearTimeout(G.saveTO);
+  setSI('cours');G.saveTO=setTimeout(()=>{sauvegarder();setSI('ok');setTimeout(()=>setSI(''),2000);},500);
+}
+function setSI(e){
+  const el=document.getElementById('sauv-ind');
+  el.className='sauv'+(e?' '+e:'');
+  el.textContent=e==='cours'?'↑ sauvegarde...':e==='ok'?'✓ sauvegardé':'● prêt';
+}
+
+// ── UI ──
+function miseAJourUI(){
+  const tv=G.tv;
+  document.getElementById('tv-score').textContent=tv;
+  document.getElementById('tv-hdr-val').textContent=tv;
+  document.getElementById('tv-tier').textContent=getTvTier(tv);
+  document.getElementById('tv-barre').style.width=Math.min(100,(tv/1000)*100)+'%';
+  document.getElementById('h-nom-hero').textContent=G.nomHero||'—';
+  document.getElementById('h-nom-civil').textContent=G.nomCivil||'—';
+  const agEl=document.getElementById('h-agence');
+  agEl.textContent='Agence '+G.agence;
+  agEl.className='hero-agence agence-'+(G.agence||'').toLowerCase();
+  document.getElementById('h-followers').textContent=(G.followers||0).toLocaleString();
+  document.getElementById('h-rang').textContent=G.rang;
+  document.getElementById('h-arc').textContent=G.arc;
+  document.getElementById('h-cash').textContent='¥'+(G.cash||0).toLocaleString();
+  const s=G.stats;
+  ['puissance','agilite','resistance','charisme','strategie'].forEach(k=>{
+    const el=document.getElementById('s-'+k);const bar=document.getElementById('b-'+k);
+    if(el)el.textContent=s[k];if(bar)bar.style.width=Math.min(100,s[k])+'%';
+  });
+  const invEl=document.getElementById('inv-liste');
+  if(G.inventaire.length){invEl.innerHTML=G.inventaire.map(it=>`<div class="inv-item">▸ ${it}</div>`).join('');}
+  else{invEl.innerHTML='<div class="inv-vide">Vide</div>';}
+}
+
+// ── SYSTEM PROMPT ──
+function construireSP(){
+  const s=G.stats;
+  const agenceDesc=G.agence==='APEX'?'APEX — l\'agence dominante, marketing total, ressources maximales, autonomie sacrifiée':G.agence==='ORIGIN'?'ORIGIN — l\'agence idéaliste, authenticité pure, liberté totale, progression plus lente':'SHADOW — l\'agence ambiguë, méthodes opaques, progression explosive, histoire trouble';
+  const profilDesc=G.profil==='Authentique'?'Authentique — ce qu\'il montre est ce qu\'il est, TV stable mais lente':G.profil==='Performeur'?'Performeur — sait exactement ce que le public veut voir, TV rapide mais fragile':'Mystérieux — laisse les autres parler de lui, TV construite sur la fascination';
+  return `=== HERO FEED — CONTEUR ===
+Tu es le Conteur de Hero Feed. Tu es un auteur, pas un assistant. Tu ne sors JAMAIS du personnage. Tu réponds TOUJOURS en français. Deuxième personne : "tu décides", "tu agis", "tu ressens".
+
+=== UNIVERS ===
+Neo-Tokyo, futur proche. Les super-héros existent — mais leur puissance vient directement de la Trust Value : l'amour et la confiance du public. Plus les gens croient en un héros, plus il est puissant. À TV zéro, les pouvoirs disparaissent complètement.
+C'est une physique sociale réelle dans cet univers. La popularité est une énergie mesurable.
+La frontière entre héros et influenceur est mince. Et cette frontière change tout.
+
+=== VOIX LITTÉRAIRE ===
+AUSTIN GROSSMAN pour le ton : l'intérieur du héros, les absurdités du métier, l'humanité derrière les pouvoirs. Ni trop sérieux ni trop léger.
+NAOKI URASAWA pour la structure : personnages secondaires profonds, révélations progressives, cohérence sur la durée.
+DAVE EGGERS pour la satire : regard critique sur la popularité comme énergie, les dérives du système, les questions sans réponse facile.
+
+RÈGLES D'ÉCRITURE STRICTES :
+- Jamais deux phrases consécutives avec la même structure.
+- Un détail sensoriel de Neo-Tokyo par scène : néons, foules, écrans géants affichant les TV en temps réel.
+- Mots INTERDITS : "soudain", "immédiatement", "incroyable", "impressionnant".
+- Le public de Neo-Tokyo n'est jamais unanime — il y a toujours des voix contradictoires.
+- La TV fluctue constamment — chaque action publique a un impact.
+
+=== HÉROS ===
+Nom civil : ${G.nomCivil} | Nom héros : ${G.nomHero} | Âge : ${G.age} ans
+Pouvoir : ${G.pouvoir} | Profil comms : ${profilDesc}
+Agence : ${agenceDesc}
+Trust Value : ${G.tv}/1000 (${getTvTier(G.tv)})
+Followers : ${G.followers.toLocaleString()} | Cash : ¥${G.cash.toLocaleString()}
+Arc : ${G.arc} / 4 | Rang agence : ${G.rang}
+Inventaire : ${G.inventaire.length?G.inventaire.join(', '):'Vide'}
+
+=== STATS ===
+Puissance : ${s.puissance}/100 | Agilité : ${s.agilite}/100 | Résistance : ${s.resistance}/100
+Charisme : ${s.charisme}/100 | Stratégie : ${s.strategie}/100
+Note : TOUTES ces stats sont multipliées par (TV/100) en combat. À TV 500, un héros avec Puissance 50 se bat comme s'il en avait 250.
+
+=== MECANIQUE TV ===
+La Trust Value monte par :
+- Victoires spectaculaires bien racontées
+- Bonne communication sur les réseaux
+- Moments d'humanité touchants
+- Tournois gagnés devant public
+
+La TV baisse par :
+- Défaites publiques
+- Controverses et scandales
+- Dégâts collatéraux sur des civils
+- Périodes de silence (le public oublie)
+- Campagnes de destruction d'image orchestrées par des rivaux
+
+Format TV : [ TV +X ] ou [ TV -X ] à chaque événement significatif
+Format followers : [ Followers +X ] ou [ Followers -X ]
+Format cash : [ Cash +¥X ] ou [ Cash -¥X ]
+
+=== MOMENTS MEDIAS ===
+Quand un podcasteur ou influenceur parle du héros :
+[ POST ]
+@NomCompte — plateforme
+Texte du post
+Likes: X | Partages: X
+[ FIN POST ]
+
+=== MOMENTS TV VIRAL ===
+Quand la TV change significativement suite à un événement public :
+[ TV-MOMENT ]
++X ou -X TRUST VALUE
+Raison en une ligne
+[ FIN TV-MOMENT ]
+
+=== STRUCTURE NARRATIVE ===
+Arc 1 — L'éveil : TV 15→100, découverte des pouvoirs, choix de l'agence, premiers combats
+Arc 2 — La construction : TV 100→300, premiers tournois, rivalités, image en construction
+Arc 3 — La crise : TV fluctuante, scandale ou controverse majeure, test du personnage
+Arc 4 — La révélation : TV 300→600, menace liée à l'énergie de la peur, climax Saison 1
+
+=== FORMAT CHOIX ===
+Narration (120-200 mots)
+
+[ Stats si pertinent ]
+
+${G.mode==='boutons'?`[ CHOIX ]
+1 — option
+2 — option
+3 — option
+4 — option`:'Termine par une question ouverte sur l\'action du héros.'}
+
+=== MISES À JOUR ===
+[ TV ±X ] [ Followers ±X ] [ Cash ±¥X ]
+[ Puissance ±X ] [ Agilité ±X ] [ Résistance ±X ] [ Charisme ±X ] [ Stratégie ±X ]
+[ Arc: X ] quand changement d'arc
+[ Rang: NomRang ] quand promotion dans l'agence
+[ NomObjet ajouté à l'inventaire ] / [ NomObjet retiré de l'inventaire ]
+
+=== PAYWALL ===
+Quand nbChoix atteint ${PAYWALL} : insère [ PAYWALL ]`.trim();
+}
+
+// ── PARSING ──
+function parserReponse(texte){
+  const mises=[];
+
+  // TV
+  texte=texte.replace(/\[\s*TV\s*\+(\d+)\s*\]/gi,(_,v)=>{
+    const n=parseInt(v);G.tv=Math.min(1000,G.tv+n);mises.push(`[TV +${n}]`);return '';
+  });
+  texte=texte.replace(/\[\s*TV\s*-(\d+)\s*\]/gi,(_,v)=>{
+    const n=parseInt(v);G.tv=Math.max(0,G.tv-n);mises.push(`[TV -${n}]`);return '';
+  });
+
+  // Followers
+  texte=texte.replace(/\[\s*Followers\s*\+([0-9,]+)\s*\]/gi,(_,v)=>{
+    const n=parseInt(v.replace(/,/g,''));G.followers+=n;mises.push(`[+${n.toLocaleString()} followers]`);return '';
+  });
+  texte=texte.replace(/\[\s*Followers\s*-([0-9,]+)\s*\]/gi,(_,v)=>{
+    const n=parseInt(v.replace(/,/g,''));G.followers=Math.max(0,G.followers-n);mises.push(`[-${n.toLocaleString()} followers]`);return '';
+  });
+
+  // Cash
+  texte=texte.replace(/\[\s*Cash\s*\+¥([0-9,]+)\s*\]/gi,(_,v)=>{
+    const n=parseInt(v.replace(/,/g,''));G.cash+=n;mises.push(`[Cash +¥${n.toLocaleString()}]`);return '';
+  });
+  texte=texte.replace(/\[\s*Cash\s*-¥([0-9,]+)\s*\]/gi,(_,v)=>{
+    const n=parseInt(v.replace(/,/g,''));G.cash=Math.max(0,G.cash-n);mises.push(`[Cash -¥${n.toLocaleString()}]`);return '';
+  });
+
+  // Stats
+  ['Puissance','Agilité','Résistance','Charisme','Stratégie'].forEach(label=>{
+    const key=label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    texte=texte.replace(new RegExp(`\\[\\s*${label}\\s*([+\\-])(\\d+)\\s*\\]`,'gi'),(_,op,v)=>{
+      const n=parseInt(v);G.stats[key]=Math.max(0,Math.min(100,G.stats[key]+(op==='-'?-n:n)));
+      mises.push(`[${label}${op}${n}]`);return '';
+    });
+  });
+
+  // Arc et rang
+  texte=texte.replace(/\[\s*Arc\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.arc=parseInt(n);mises.push(`[Arc ${n}]`);return '';});
+  texte=texte.replace(/\[\s*Rang\s*:\s*([^\]]+)\s*\]/gi,(_,r)=>{G.rang=r.trim();mises.push(`[${r.trim()}]`);return '';});
+
+  // Inventaire
+  texte=texte.replace(/\[\s*([^\]]+?)\s*ajoutée?s?\s*à\s*l['']inventaire\s*\]/gi,(_,it)=>{
+    const item=it.trim();if(!G.inventaire.includes(item))G.inventaire.push(item);
+    mises.push(`[${item}→inv]`);return '';
+  });
+  texte=texte.replace(/\[\s*([^\]]+?)\s*retiré[e]?\s*de\s*l['']inventaire\s*\]/gi,(_,it)=>{
+    G.inventaire=G.inventaire.filter(i=>i.toLowerCase()!==it.trim().toLowerCase());
+    mises.push(`[${it.trim()}✗]`);return '';
+  });
+
+  // Post social
+  texte=texte.replace(/\[\s*POST\s*\]([\s\S]*?)\[\s*FIN POST\s*\]/gi,(_,contenu)=>{
+    const lignes=contenu.trim().split('\n').filter(l=>l.trim());
+    const auteur=lignes[0]||'@unknown';
+    const initiale=auteur.replace('@','').charAt(0).toUpperCase();
+    const textePost=lignes.slice(1,-1).join(' ');
+    const stats=lignes[lignes.length-1]||'';
+    return `<div class="post-social"><div class="post-header"><div class="post-avatar">${initiale}</div><div class="post-auteur">${auteur}</div><div class="post-date">maintenant</div></div><div class="post-texte">${textePost}</div><div class="post-stats">${stats}</div></div>`;
+  });
+
+  // Moment TV viral
+  texte=texte.replace(/\[\s*TV-MOMENT\s*\]([\s\S]*?)\[\s*FIN TV-MOMENT\s*\]/gi,(_,contenu)=>{
+    const lignes=contenu.trim().split('\n').filter(l=>l.trim());
+    const valeur=lignes[0]||'';
+    const raison=lignes[1]||'';
+    const hausse=valeur.startsWith('+');
+    return `<div class="tv-moment"><div class="tv-moment-label">Trust Value Update</div><div class="tv-moment-valeur ${hausse?'hausse':'baisse'}">${valeur}</div><div style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:4px;">${raison}</div></div>`;
+  });
+
+  // Paywall
+  if(!G.adminMode&&/\[\s*PAYWALL\s*\]/i.test(texte)){
+    texte=texte.replace(/\[\s*PAYWALL\s*\]/gi,'');
+    setTimeout(declencherPaywall,600);
+  }
+
+  // Choix
+  let htmlChoix='';
+  const mChoix=texte.match(/\[\s*CHOIX\s*\]([\s\S]*?)(?=\n\n|\n\[|$)/i);
+  if(mChoix){
+    texte=texte.replace(mChoix[0],'').trim();
+    const lignes=mChoix[0].split('\n').filter(l=>/^\d[\s—\-]/.test(l.trim()));
+    if(lignes.length){
+      window._choix=lignes.map(l=>l.replace(/^\d\s*[—\-]\s*/,'').trim());
+      htmlChoix='<div class="choix-bloc"><div class="choix-titre">Que fais-tu ?</div>'+
+        window._choix.map((t,i)=>`<button class="choix-btn" onclick="envoyerChoix(${i})">${lignes[i].trim()}</button>`).join('')+
+        '</div>';
+    }
+  }
+
+  miseAJourUI();
+  const ps=texte.trim().split(/\n+/).filter(l=>l.trim()).map(l=>{
+    if(l.startsWith('<'))return l;
+    return `<p>${l.trim()}</p>`;
+  }).join('');
+  const su=mises.length?`<div class="maj-stats">${mises.join('  ')}</div>`:'';
+  return ps+su+htmlChoix;
+}
+
+// ── PAYWALL ──
+function declencherPaywall(){
+  ajouterRecit(`<div style="border:1px solid var(--violet-dim);background:rgba(122,32,224,0.08);padding:20px;margin:8px 0;text-align:center;">
+    <p style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--violet-vif);text-transform:uppercase;margin-bottom:10px;">— Accès limité —</p>
+    <p style="font-family:var(--corps);font-size:14px;color:var(--texte);margin-bottom:16px;">Tu as atteint la limite gratuite de Hero Feed. Pour continuer l'ascension jusqu'au rang légendaire, passe à l'abonnement Récit Games.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button onclick="window.location.href='https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00'" style="background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 24px;cursor:pointer;text-transform:uppercase;">S'abonner — 7€/mois</button>
+      <button onclick="saisirCode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 20px;cursor:pointer;text-transform:uppercase;">J'ai un code</button>
+    </div>
+  </div>`);
+  document.getElementById('btn-envoyer').disabled=true;
+  document.getElementById('input-joueur').disabled=true;
+}
+function saisirCode(){
+  const code=prompt('Entre ton code abonnement Récit Games :');
+  if(!code)return;
+  fetch('https://recitgames-api.vercel.app/api/verify-code',{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({code:code.trim().toUpperCase()})
+  }).then(r=>r.json()).then(data=>{
+    if(data.valid){
+      if(data.admin){G.nbChoix=0;G.adminMode=true;ajouterRecit('<p style="color:var(--vert);font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ Accès admin activé.</p>');}
+      else{G.nbChoix=0;document.getElementById('btn-envoyer').disabled=false;document.getElementById('input-joueur').disabled=false;ajouterRecit('<p style="color:var(--vert);font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ Code validé. L\'aventure continue.</p>');}
+    }else{alert('Code invalide.');}
+  }).catch(()=>alert('Erreur de vérification.'));
+}
+
+// ── STREAMING ──
+async function streamerMessage(msg){
+  G.historique.push({role:'user',content:msg});
+  const recit=document.getElementById('recit');
+  const entree=document.createElement('div');entree.className='entree';
+  recit.appendChild(entree);recit.scrollTop=entree.offsetTop-20;
+  const sp=document.createElement('p');entree.appendChild(sp);
+  const cur=document.createElement('span');cur.className='curseur';sp.appendChild(cur);
+  let full='';
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':G.apiKey.replace(/[^\x20-\x7E]/g,'').trim(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1400,stream:true,system:construireSP(),messages:G.historique})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`Erreur ${res.status}`);}
+    const reader=res.body.getReader();const dec=new TextDecoder('utf-8',{fatal:false});
+    let buffer='';
+    while(true){
+      const{done,value}=await reader.read();if(done)break;
+      buffer+=dec.decode(value,{stream:true});
+      const lignes=buffer.split('\n');buffer=lignes.pop();
+      for(const ligne of lignes){
+        if(!ligne.startsWith('data: '))continue;
+        const d=ligne.slice(6).trim();if(d==='[DONE]')continue;
+        try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){full+=p.delta.text;sp.textContent=full;sp.appendChild(cur);}}catch(e){}
+      }
+    }
+    cur.remove();
+    G.historique.push({role:'assistant',content:full});
+    if(G.historique.length>20)G.historique=G.historique.slice(-20);
+    entree.innerHTML=parserReponse(full);
+    autoSave();
+  }catch(err){
+    cur.remove();
+    entree.innerHTML=`<p style="color:var(--rouge);font-family:var(--mono);font-size:12px;">Erreur : ${err.message}</p>`;
+  }
+}
+function ajouterRecit(html){
+  const recit=document.getElementById('recit');
+  const e=document.createElement('div');e.className='entree';e.innerHTML=html;
+  recit.appendChild(e);recit.scrollTop=recit.scrollHeight;
+}
+async function envoyerMessage(msg){
+  if(!msg.trim())return;
+  const btn=document.getElementById('btn-envoyer');
+  const inp=document.getElementById('input-joueur');
+  btn.disabled=true;
+  if(G.mode!=='boutons')inp.disabled=true;
+  const recit=document.getElementById('recit');
+  if(recit.children.length>0){
+    const sep=document.createElement('div');sep.className='entree';
+    sep.innerHTML='<hr class="sep"/>';recit.appendChild(sep);
+  }
+  ajouterRecit(`<div class="action-joueur">▸ ${msg}</div>`);
+  inp.value='';
+  if(!G.adminMode)G.nbChoix++;
+  await streamerMessage(msg);
+  btn.disabled=false;
+  if(G.mode!=='boutons')inp.disabled=false;
+  if(window.innerWidth>700&&G.mode!=='boutons')inp.focus();
+}
+function envoyerChoix(i){const t=window._choix&&window._choix[i];if(t)envoyerMessage(t);}
+async function envoyerPremier(){
+  miseAJourUI();
+  const msg=`Je commence Hero Feed. Je suis ${G.nomHero} (${G.nomCivil}), ${G.age} ans, pouvoir ${G.pouvoir}, agence ${G.agence}, profil ${G.profil}. Trust Value : 15. Je viens de découvrir mes pouvoirs. Commence l'Arc 1 — l'éveil — à Neo-Tokyo.`;
+  await streamerMessage(msg);
+}
+
+// ── EVENTS ──
+document.getElementById('btn-envoyer').addEventListener('click',()=>{envoyerMessage(document.getElementById('input-joueur').value);});
+document.getElementById('input-joueur').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();envoyerMessage(e.target.value);}});
+
+window.addEventListener('load',()=>{
+  const save=charger();
+  if(save&&save.historique&&save.historique.length>0){
+    document.getElementById('btn-reprendre-intro').style.display='block';
+  }
+});
+</script>
+</body>
+</html>
