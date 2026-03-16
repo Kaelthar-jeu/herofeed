@@ -441,6 +441,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="logo"><span class="h">HERO</span> <span class="f">FEED</span></div>
     <div class="header-droite">
       <div class="tv-hdr">TV <span id="tv-hdr-val">15</span></div>
+      <button onclick="basculerMode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;" id="btn-mode-switch">Mode: Boutons</button>
+      <button onclick="nouveauHeros()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;">Nouveau héros</button>
       <div class="sauv" id="sauv-ind">● prêt</div>
     </div>
   </header>
@@ -609,6 +611,7 @@ function lancerJeu(){
   }
   document.getElementById('ecran-setup').style.display='none';
   choisirMode(G.mode);
+  document.getElementById('btn-mode-switch').textContent = G.mode === 'boutons' ? 'Mode: Boutons' : 'Mode: Texte libre';
   miseAJourUI();envoyerPremier();
 }
 function clicReprendre(){
@@ -632,7 +635,9 @@ function afficherReprise(save){
   document.getElementById('ecran-reprise').style.display='flex';
   document.getElementById('btn-continuer').onclick=()=>{
     document.getElementById('ecran-reprise').style.display='none';
-    choisirMode(G.mode);miseAJourUI();
+    choisirMode(G.mode);
+    document.getElementById('btn-mode-switch').textContent = G.mode === 'boutons' ? 'Mode: Boutons' : 'Mode: Texte libre';
+    miseAJourUI();
     envoyerMessage(`Je reprends. Je suis ${G.nomHero} (${G.nomCivil}), agence ${G.agence}, TV ${G.tv}, ${G.followers.toLocaleString()} followers. Arc ${G.arc}. Résume la situation et propose mes options.`);
   };
   document.getElementById('btn-nouvelle').onclick=()=>{
@@ -997,6 +1002,32 @@ async function envoyerPremier(){
   miseAJourUI();
   const msg=`Je commence Hero Feed. Je suis ${G.nomHero} (${G.nomCivil}), ${G.age} ans, pouvoir ${G.pouvoir}, agence ${G.agence}, profil ${G.profil}. Trust Value : 15. Je viens de découvrir mes pouvoirs. Commence l'Arc 1 — l'éveil — à Neo-Tokyo.`;
   await streamerMessage(msg);
+}
+
+// ── FONCTIONS HEADER ──
+function basculerMode(){
+  const nouveau = G.mode === 'boutons' ? 'libre' : 'boutons';
+  G.mode = nouveau;
+  choisirMode(nouveau);
+  document.getElementById('btn-mode-switch').textContent = nouveau === 'boutons' ? 'Mode: Boutons' : 'Mode: Texte libre';
+  autoSave();
+}
+function nouveauHeros(){
+  if(!confirm('Créer un nouveau héros ? Ta progression actuelle sera perdue.')) return;
+  localStorage.removeItem('hero_feed_save');
+  reinitialiser();
+  document.getElementById('recit').innerHTML = '';
+  document.getElementById('app').style.display = 'flex';
+  // Réinitialiser le setup
+  document.getElementById('prenom-input').value = '';
+  document.getElementById('nom-hero-input').value = '';
+  document.getElementById('age-slider').value = 19;
+  document.getElementById('age-val').textContent = 19;
+  document.querySelectorAll('.agence-carte,.pouvoir-carte,.profil-carte,.mode-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('mode-boutons').classList.add('sel');
+  G.agence='';G.pouvoir='';G.profil='';G.mode='boutons';
+  document.getElementById('btn-lancer').disabled = true;
+  afficherSetup();
 }
 
 // ── EVENTS ──
