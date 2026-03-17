@@ -968,7 +968,13 @@ function parserReponse(texte){
   }
 
   miseAJourUI();
-  const ps=texte.trim().split(/\n+/).filter(l=>l.trim()).map(l=>{
+  // Filtrage des métadonnées internes avant affichage
+  const FILTRES_INTERNES = /nbChoix|max_tokens|system_prompt|PAYWALL|\[\s*Score|\[\s*Arc:|\[\s*Rang:|\[\s*TV[+-]|\[\s*Followers|\[\s*Cash|\[\s*Puissance|\[\s*Agilité|\[\s*Résistance|\[\s*Charisme|\[\s*Stratégie|\[\s*PALIER/i;
+  const ps=texte.trim().split(/\n+/).filter(l=>{
+    if(!l.trim()) return false;
+    if(FILTRES_INTERNES.test(l) && !l.startsWith('<')) return false;
+    return true;
+  }).map(l=>{
     if(l.startsWith('<'))return l;
     return `<p>${l.trim()}</p>`;
   }).join('');
