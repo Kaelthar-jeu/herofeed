@@ -638,7 +638,26 @@ function afficherReprise(save){
     choisirMode(G.mode);
     document.getElementById('btn-mode-switch').textContent = G.mode === 'boutons' ? 'Mode: Boutons' : 'Mode: Texte libre';
     miseAJourUI();
-    envoyerMessage(`Je reprends. Je suis ${G.nomHero} (${G.nomCivil}), agence ${G.agence}, TV ${G.tv}, ${G.followers.toLocaleString()} followers. Arc ${G.arc}. Résume la situation et propose mes options.`);
+    const d1r=new Date(save.date),d2r=new Date();
+    const heuresAbs=(d2r-d1r)/3600000;
+    let msgReprise;
+    if(heuresAbs < 3) {
+      const absStr = heuresAbs < 0.1 ? 'quelques minutes' : Math.round(heuresAbs*10)/10 + 'h';
+      msgReprise = `REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation.
+Héros : ${G.nomHero} (${G.nomCivil}) | Agence : ${G.agence} | Arc : ${G.arc}/4 | Rang : ${G.rang}
+Trust Value : ${G.tv}/1000 | Followers : ${G.followers.toLocaleString()} | Cash : ¥${G.cash.toLocaleString()}
+Stats — Puissance:${G.stats.puissance} Agilité:${G.stats.agilite} Résistance:${G.stats.resistance} Charisme:${G.stats.charisme} Stratégie:${G.stats.strategie}
+Inventaire : ${G.inventaire.length?G.inventaire.join(', '):'Vide'}
+Absent depuis : ${absStr}. Le monde a pu légèrement évoluer (rumeurs, posts, tensions) mais AUCUNE action n'a été faite à ma place. Reprends la même scène et propose mes 4 choix.`;
+    } else {
+      msgReprise = `REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation.
+Héros : ${G.nomHero} (${G.nomCivil}) | Agence : ${G.agence} | Arc : ${G.arc}/4 | Rang : ${G.rang}
+Trust Value : ${G.tv}/1000 | Followers : ${G.followers.toLocaleString()} | Cash : ¥${G.cash.toLocaleString()}
+Stats — Puissance:${G.stats.puissance} Agilité:${G.stats.agilite} Résistance:${G.stats.resistance} Charisme:${G.stats.charisme} Stratégie:${G.stats.strategie}
+Inventaire : ${G.inventaire.length?G.inventaire.join(', '):'Vide'}
+RÈGLE ABSOLUE : aucune progression automatique, aucun changement de stats hors session, aucune action faite à ma place. Reprends exactement là où on en était.`;
+    }
+    envoyerMessage(msgReprise);
   };
   document.getElementById('btn-nouvelle').onclick=()=>{
     reinitialiser();document.getElementById('ecran-reprise').style.display='none';
@@ -781,6 +800,42 @@ Quand la TV change significativement suite à un événement public :
 Raison en une ligne
 [ FIN TV-MOMENT ]
 
+=== IMPACT DES FOLLOWERS SUR LA PUISSANCE ===
+Les followers sont une ressource centrale, pas cosmétique. Ils amplifient la Trust Value et débloquent des capacités.
+
+PALIERS DE FOLLOWERS :
+- 0 → 1 000 followers : débutant. Aucun bonus.
+- 1 000 → 10 000 : base de fans engagée. [ Charisme +2 ] automatique. L'agence commence à prendre le héros au sérieux.
+- 10 000 → 50 000 : reconnaissance locale. [ Charisme +3 ] [ Stratégie +2 ]. Accès aux petits sponsors.
+- 50 000 → 200 000 : héros connu. [ Puissance +5 ] via l'amplification TV. Tournois majeurs accessibles.
+- 200 000 → 500 000 : star régionale. [ Puissance +8 ] [ Résistance +5 ]. Les podcasteurs influents parlent de lui.
+- 500 000 → 1 000 000 : icône nationale. [ Toutes stats +10 ]. La TV monte plus vite car chaque action est amplifiée.
+- 1 000 000+ : légende vivante. Multiplicateur TV x1.5 sur tous les gains.
+
+RÈGLE : Chaque gain de followers doit être justifié narrativement (contenu posté, action remarquée, tournoi gagné). Pas de gain gratuit.
+RÈGLE : La progression des followers est équilibrée — monter de 0 à 1M prend toute une saison de jeu.
+RÈGLE : Les followers peuvent baisser — un scandale peut effacer des mois de construction.
+
+Quand le héros franchit un palier de followers, insère :
+[ PALIER: X followers ] suivi d'une courte narration sur l'impact ressenti.
+
+=== COHÉRENCE ABSOLUE — RÈGLE FONDAMENTALE ===
+
+RÈGLE 1 — MÉMOIRE TOTALE :
+Tu te souviens de TOUT ce qui s'est passé. Aucun personnage ne change d'attitude sans raison. Aucun fait établi ne disparaît. Aucune stat ne change sans action du joueur.
+
+RÈGLE 2 — CAUSALITÉ STRICTE :
+Chaque événement est la conséquence d'un choix du joueur ou d'un état existant. Interdit : événements absurdes, coïncidences inexplicables, twists sans cause.
+
+RÈGLE 3 — PERSONNAGES CONSTANTS :
+Chaque personnage secondaire a une psychologie fixe. Un rival hostile reste hostile jusqu'à ce que quelque chose change narrativement. Les attitudes ne varient pas sans raison.
+
+RÈGLE 4 — SAUVEGARDE STRICTE :
+Le héros reprend EXACTEMENT là où il était. Aucune progression automatique. Aucun combat simulé en arrière-plan. Aucun changement de TV ou followers hors session.
+
+RÈGLE 5 — MONDE SEMI-ACTIF (max 3h) :
+Si le joueur était absent moins de 3h, le monde a légèrement évolué (posts, rumeurs, tensions) mais RIEN d'irréversible sur le héros. Au-delà de 3h : monde figé au moment de la sauvegarde.
+
 === STRUCTURE NARRATIVE ===
 Arc 1 — L'éveil : TV 15→100, découverte des pouvoirs, choix de l'agence, premiers combats
 Arc 2 — La construction : TV 100→300, premiers tournois, rivalités, image en construction
@@ -819,6 +874,19 @@ function parserReponse(texte){
   });
   texte=texte.replace(/\[\s*TV\s*-(\d+)\s*\]/gi,(_,v)=>{
     const n=parseInt(v);G.tv=Math.max(0,G.tv-n);mises.push(`[TV -${n}]`);return '';
+  });
+
+  // Palier followers
+  texte=texte.replace(/\[\s*PALIER\s*:\s*([\d,]+)\s*followers?\s*\]/gi,(_,v)=>{
+    const n=parseInt(v.replace(/,/g,''));
+    // Appliquer bonus selon palier
+    if(n>=1000000){Object.assign(G.stats,{puissance:Math.min(100,G.stats.puissance+10),agilite:Math.min(100,G.stats.agilite+10),resistance:Math.min(100,G.stats.resistance+10),charisme:Math.min(100,G.stats.charisme+10),strategie:Math.min(100,G.stats.strategie+10)});}
+    else if(n>=500000){Object.assign(G.stats,{puissance:Math.min(100,G.stats.puissance+8),resistance:Math.min(100,G.stats.resistance+5)});}
+    else if(n>=200000){Object.assign(G.stats,{puissance:Math.min(100,G.stats.puissance+5)});}
+    else if(n>=50000){Object.assign(G.stats,{charisme:Math.min(100,G.stats.charisme+3),strategie:Math.min(100,G.stats.strategie+2)});}
+    else if(n>=10000){Object.assign(G.stats,{charisme:Math.min(100,G.stats.charisme+2)});}
+    miseAJourUI();
+    return '';
   });
 
   // Followers
