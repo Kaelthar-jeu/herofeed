@@ -169,10 +169,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .sauv.ok{color:var(--vert);}
 .sauv.cours{color:var(--or);}
 
-.main{display:flex;flex:1;gap:14px;padding:14px 0;min-height:0;}
+.main{display:block;flex:1;padding:14px 0;min-height:0;}
 
 /* ── PANNEAU HEROS ── */
-.hero-panel{width:230px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;overflow-y:auto;max-height:calc(100vh - 80px);position:sticky;top:0;}
+.hero-panel{display:none;}
 .hp-bloc{background:var(--bg2);border:1px solid var(--border);position:relative;z-index:5;}
 .hp-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);background:var(--bg3);padding:5px 12px;border-bottom:1px solid var(--border);}
 .hp-inner{padding:12px 14px;}
@@ -211,15 +211,29 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .inv-item:last-child{border-bottom:none;}
 .inv-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
 
+/* Panneau déroulant Hero Feed */
+.hf-panel-btn{background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;padding:4px 10px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;}
+.hf-panel-btn:hover{border-color:var(--violet-vif);color:var(--violet-vif);}
+#hf-panel{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;}
+#hf-panel.open{display:block;}
+.hf-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.hf-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--violet);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px;}
+.hf-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:11px;}
+.hf-key{color:var(--texte-dim);font-family:var(--mono);}
+.hf-val{color:var(--violet-vif);font-family:var(--mono);font-weight:bold;}
+.hf-bar-wrap{background:var(--bg4);height:2px;margin-top:1px;margin-bottom:4px;overflow:hidden;}
+.hf-bar{height:100%;background:var(--violet);transition:width 0.4s ease;}
+@media(max-width:700px){.hf-inner{grid-template-columns:1fr 1fr;}}
+
 .btn-prem{width:100%;padding:11px;background:linear-gradient(135deg,var(--violet-dim),var(--cyan-dim));color:#fff;border:none;font-family:var(--mono);font-size:9px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity 0.2s;}
 .btn-prem:hover{opacity:0.85;}
 
 /* ── PANNEAU JEU ── */
-.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;gap:10px;position:relative;z-index:5;}
-#recit{flex:1;background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--violet-dim);padding:22px;overflow-y:auto;min-height:0;position:relative;z-index:5;}
+.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;z-index:5;}
+#recit{flex:1;background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--violet-dim);padding:22px;overflow-y:auto;min-height:calc(100svh - 140px);padding-bottom:85px;position:relative;z-index:5;}
 .entree{margin-bottom:22px;animation:fadeIn 0.35s ease;position:relative;z-index:5;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-.entree p{font-family:var(--corps);font-size:16px;line-height:1.9;color:var(--texte);margin-bottom:10px;}
+.entree p{font-family:var(--corps);font-size:21px;line-height:1.9;color:var(--texte);margin-bottom:10px;}
 .action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:7px 12px;border-left:3px solid var(--violet-dim);margin-bottom:12px;background:rgba(122,32,224,0.05);}
 
 /* Post réseau social */
@@ -246,12 +260,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 /* Choix */
 .choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-top:2px solid var(--violet-vif);padding:14px 16px;margin-top:12px;position:relative;z-index:10;}
 .choix-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);margin-bottom:10px;}
-.choix-btn{display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;color:var(--texte-clair);font-family:var(--corps);font-size:14px;padding:11px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;position:relative;z-index:10;pointer-events:auto;}
+.choix-btn{display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;color:var(--texte-clair);font-family:var(--corps);font-size:18px;padding:13px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;position:relative;z-index:10;pointer-events:auto;}
 .choix-btn:hover{background:rgba(122,32,224,0.15);border-left-color:var(--violet-vif);border-color:var(--violet-dim);}
 .choix-btn:last-child{margin-bottom:0;}
 
 /* Input zone */
-.input-zone{display:flex;gap:8px;flex-shrink:0;position:relative;z-index:5;}
+.input-zone{display:flex;gap:8px;flex-shrink:0;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:10px 16px;z-index:100;max-width:1200px;margin:0 auto;box-sizing:border-box;}
 #input-joueur{flex:1;background:var(--bg2);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--corps);font-size:14px;padding:12px 14px;resize:none;height:52px;outline:none;transition:border-color 0.2s;}
 #input-joueur:focus{border-bottom-color:var(--violet-vif);}
 #input-joueur::placeholder{color:var(--texte-dim);font-style:italic;}
@@ -270,10 +284,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 @media(max-width:700px){
   #app{padding:0 8px;}
   .main{flex-direction:column;gap:8px;padding:8px 0;}
-  .hero-panel{width:100%;max-height:none;position:static;flex-direction:row;flex-wrap:wrap;gap:8px;overflow:visible;}
+
   .hero-panel > div{min-width:140px;flex:1;}
-  #recit{min-height:260px;max-height:48vh;padding:14px;}
-  .entree p{font-size:15px;}
+  #recit{min-height:calc(100vh - 160px);padding:16px;padding-bottom:85px;}
+  .entree p{font-size:19px;line-height:1.85;}
+  .choix-btn{font-size:17px;padding:13px 12px;}
   .logo{font-size:17px;}
   .agence-grid,.profil-grid{grid-template-columns:1fr;}
   .pouvoir-grid,.mode-grid{grid-template-columns:1fr 1fr;}
@@ -444,8 +459,57 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
       <button onclick="basculerMode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;" id="btn-mode-switch">Mode: Boutons</button>
       <button onclick="nouveauHeros()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;">Nouveau héros</button>
       <div class="sauv" id="sauv-ind">● prêt</div>
+      <button class="hf-panel-btn" onclick="toggleHfPanel()">Héros ▾</button>
     </div>
   </header>
+
+  <!-- Panneau déroulant -->
+  <div id="hf-panel">
+    <div class="hf-inner">
+
+      <div>
+        <div class="hf-title">Identité</div>
+        <div style="font-family:var(--titre);font-size:18px;font-weight:700;color:var(--violet-vif);letter-spacing:1px;" id="hf-nom-hero">—</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:2px;" id="hf-nom-civil">—</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);margin-top:3px;" id="hf-agence">—</div>
+        <div class="hf-row" style="margin-top:6px;"><span class="hf-key">Arc</span><span class="hf-val" id="hf-arc">1</span></div>
+        <div class="hf-row"><span class="hf-key">Rang</span><span class="hf-val" id="hf-rang">Recrue</span></div>
+        <div class="hf-row"><span class="hf-key">Cash</span><span class="hf-val" id="hf-cash">¥0</span></div>
+      </div>
+
+      <div>
+        <div class="hf-title">Trust Value</div>
+        <div style="font-family:var(--titre);font-size:32px;font-weight:700;color:var(--violet-vif);line-height:1;" id="hf-tv">15</div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:2px;" id="hf-tier">Inconnu</div>
+        <div class="hf-bar-wrap" style="margin-top:6px;height:4px;"><div class="hf-bar" id="hf-tv-bar" style="width:1.5%;background:var(--violet-vif);"></div></div>
+        <div class="hf-row" style="margin-top:6px;"><span class="hf-key">Followers</span><span class="hf-val" id="hf-followers" style="color:var(--cyan);">0</span></div>
+      </div>
+
+      <div>
+        <div class="hf-title">Stats</div>
+        <div class="hf-row"><span class="hf-key">Puissance</span><span class="hf-val" id="hf-puissance">30</span></div>
+        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-puissance" style="width:30%;"></div></div>
+        <div class="hf-row"><span class="hf-key">Agilité</span><span class="hf-val" id="hf-agilite">30</span></div>
+        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-agilite" style="width:30%;background:var(--cyan);"></div></div>
+        <div class="hf-row"><span class="hf-key">Résistance</span><span class="hf-val" id="hf-resistance">30</span></div>
+        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-resistance" style="width:30%;"></div></div>
+        <div class="hf-row"><span class="hf-key">Charisme</span><span class="hf-val" id="hf-charisme">40</span></div>
+        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-charisme" style="width:40%;background:var(--or);"></div></div>
+        <div class="hf-row"><span class="hf-key">Stratégie</span><span class="hf-val" id="hf-strategie">35</span></div>
+        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-strategie" style="width:35%;background:var(--cyan);"></div></div>
+      </div>
+
+      <div>
+        <div class="hf-title">Inventaire</div>
+        <div id="hf-inventaire"><div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div></div>
+        <div style="margin-top:12px;">
+          <button class="btn-prem" onclick="window.location.href='https://buy.stripe.com/test_8x2bJ05fU1yV3uKde1bZe00'">Premium — 7€/mois</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="main">
     <div class="hero-panel">
 
@@ -703,8 +767,34 @@ function setSI(e){
 }
 
 // ── UI ──
+function toggleHfPanel(){
+  const p=document.getElementById('hf-panel');
+  const b=document.querySelector('.hf-panel-btn');
+  p.classList.toggle('open');
+  if(b)b.textContent=p.classList.contains('open')?'Héros ▴':'Héros ▾';
+}
+
 function miseAJourUI(){
   const tv=G.tv;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const setW=(id,w,col)=>{const e=document.getElementById(id);if(e){e.style.width=Math.min(100,w)+'%';if(col)e.style.background=col;}};
+  // Nouveau panneau
+  set('hf-nom-hero',G.nomHero||'—');
+  set('hf-nom-civil',G.nomCivil||'—');
+  set('hf-agence','Agence '+(G.agence||'—'));
+  set('hf-arc',G.arc);
+  set('hf-rang',G.rang);
+  set('hf-cash','¥'+(G.cash||0).toLocaleString());
+  set('hf-tv',tv);
+  set('hf-tier',getTvTier(tv));
+  setW('hf-tv-bar',Math.min(100,(tv/1000)*100),'var(--violet-vif)');
+  set('hf-followers',(G.followers||0).toLocaleString());
+  const s=G.stats;
+  ['puissance','agilite','resistance','charisme','strategie'].forEach(k=>{
+    set('hf-'+k,s[k]);setW('hf-b-'+k,Math.min(100,s[k]));
+  });
+  const invHf=document.getElementById('hf-inventaire');
+  if(invHf)invHf.innerHTML=G.inventaire.length?G.inventaire.map(it=>`<div class="hf-row"><span class="hf-key">▸ ${it}</span></div>`).join(''):'<div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div>';
   document.getElementById('tv-score').textContent=tv;
   document.getElementById('tv-hdr-val').textContent=tv;
   document.getElementById('tv-tier').textContent=getTvTier(tv);
@@ -718,7 +808,6 @@ function miseAJourUI(){
   document.getElementById('h-rang').textContent=G.rang;
   document.getElementById('h-arc').textContent=G.arc;
   document.getElementById('h-cash').textContent='¥'+(G.cash||0).toLocaleString();
-  const s=G.stats;
   ['puissance','agilite','resistance','charisme','strategie'].forEach(k=>{
     const el=document.getElementById('s-'+k);const bar=document.getElementById('b-'+k);
     if(el)el.textContent=s[k];if(bar)bar.style.width=Math.min(100,s[k])+'%';
