@@ -3,233 +3,132 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hero Feed</title>
+<title>Survivants — Récit Games</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,300;0,400;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,700;1,400&family=Inconsolata:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --bg:#08080f;--bg2:#0e0e1a;--bg3:#141428;--bg4:#1a1a32;
-  --border:#2a2a4a;--border2:#3a3a6a;
-  --texte:#d0d0f0;--texte-dim:#7070a0;--texte-clair:#f0f0ff;
-  --violet:#7a20e0;--violet-vif:#9a40ff;--violet-dim:#4a1090;
-  --cyan:#00c8e0;--cyan-dim:#006878;--cyan-vif:#40e8ff;
-  --or:#d4a830;--rouge:#e02040;--vert:#20c060;
-  --mono:'Share Tech Mono',monospace;
-  --titre:'Rajdhani',sans-serif;
-  --corps:'Noto Serif',Georgia,serif;
+  --bg:#111820;--bg2:#172030;--bg3:#1e2a3a;--bg4:#253040;
+  --border:#2a3a4a;--border2:#3a4a5a;
+  --texte:#c8d8e8;--texte-dim:#6a7a8a;--texte-clair:#e8f0f8;
+  --bleu:#1a6a9a;--bleu-vif:#2a8acc;--bleu-dim:#0a3a5a;
+  --alerte:#cc6600;--alerte-dim:#7a3a00;
+  --rouge:#aa2200;--vert:#1a6a30;
+  --mono:'Inconsolata',monospace;
+  --titre:'Archivo Narrow',sans-serif;
 }
-html,body{height:100%;background:var(--bg);color:var(--texte);font-family:var(--corps);font-size:16px;line-height:1.7;overflow-x:hidden;}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(122,32,224,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(122,32,224,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0;}
-.studio-bar{position:relative;z-index:10;background:#050508;border-bottom:1px solid var(--violet-dim);padding:6px 16px;text-align:center;}
+html,body{height:100%;background:var(--bg);color:var(--texte);font-family:var(--titre);font-size:16px;line-height:1.7;overflow-x:hidden;}
+.studio-bar{background:#0a1018;border-bottom:1px solid var(--border);padding:7px 16px;text-align:center;}
 .studio-bar a{color:var(--texte-dim);font-size:11px;text-decoration:none;letter-spacing:3px;font-family:var(--mono);transition:color 0.2s;}
-.studio-bar a:hover{color:var(--cyan);}
-
-/* INTRO */
-#ecran-intro{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;overflow:hidden;}
-#ecran-intro::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(122,32,224,0.15) 0%,transparent 70%);top:-200px;right:-200px;animation:pulse-orb 4s ease-in-out infinite alternate;}
-#ecran-intro::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,200,224,0.1) 0%,transparent 70%);bottom:-100px;left:-100px;animation:pulse-orb 3s ease-in-out infinite alternate-reverse;}
-@keyframes pulse-orb{from{transform:scale(1);}to{transform:scale(1.2);}}
-.intro-inner{max-width:560px;width:100%;text-align:center;position:relative;z-index:1;}
-.intro-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--cyan);text-transform:uppercase;margin-bottom:32px;animation:app 0.8s ease 0.1s both;}
-.intro-tv-label{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--texte-dim);text-transform:uppercase;margin-bottom:8px;animation:app 0.8s ease 0.15s both;}
-.intro-tv-bar{width:200px;height:4px;background:var(--bg3);margin:0 auto 32px;border-radius:2px;overflow:hidden;animation:app 0.8s ease 0.2s both;}
-.intro-tv-fill{height:100%;width:1.5%;background:linear-gradient(90deg,var(--violet),var(--cyan));border-radius:2px;}
-.intro-titre{font-family:var(--titre);font-size:clamp(72px,18vw,130px);font-weight:700;line-height:0.85;letter-spacing:-1px;text-transform:uppercase;animation:app 0.8s ease 0.3s both;}
-.intro-titre .h{color:var(--violet-vif);text-shadow:0 0 40px rgba(154,64,255,0.6);}
-.intro-titre .f{color:var(--cyan);text-shadow:0 0 40px rgba(0,200,224,0.6);}
-.intro-sep{display:flex;align-items:center;gap:12px;margin:24px 0;animation:app 0.8s ease 0.45s both;}
-.intro-sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--violet-dim),transparent);}
-.intro-sep-dot{width:4px;height:4px;background:var(--cyan);border-radius:50%;flex-shrink:0;}
-.intro-accroche{font-family:var(--corps);font-size:14px;font-style:italic;color:var(--texte-dim);line-height:1.9;margin-bottom:48px;animation:app 0.8s ease 0.55s both;}
-.intro-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:app 0.8s ease 0.7s both;}
-.btn-intro-p{background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--titre);font-size:16px;font-weight:600;letter-spacing:3px;padding:14px 40px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px));}
-.btn-intro-p:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
-.btn-intro-s{display:none;background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:11px;letter-spacing:3px;padding:14px 24px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
-.btn-intro-s:hover{border-color:var(--cyan);color:var(--cyan);}
-@keyframes app{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-
-/* SETUP */
-#ecran-setup{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px;}
-.setup-wrap{max-width:620px;margin:auto;padding:40px 0;}
-.setup-entete{margin-bottom:36px;padding-bottom:16px;border-bottom:1px solid var(--border);}
-.setup-tag{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
-.setup-titre{font-family:var(--titre);font-size:36px;font-weight:700;color:var(--texte-clair);letter-spacing:1px;}
-.setup-titre span{color:var(--violet-vif);}
+.studio-bar a:hover{color:var(--texte);}
+#ecran-intro{position:fixed;inset:0;z-index:300;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;background-image:radial-gradient(ellipse at 50% 0%,rgba(26,106,154,0.1) 0%,transparent 60%),repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,0.01) 60px,rgba(255,255,255,0.01) 61px);}
+.intro-inner{max-width:520px;width:100%;text-align:center;}
+.intro-tag{font-family:var(--mono);font-size:10px;letter-spacing:5px;color:var(--bleu-vif);text-transform:uppercase;margin-bottom:32px;animation:fi 0.8s ease 0.1s both;opacity:0.8;}
+.intro-titre{font-family:var(--titre);font-size:clamp(60px,14vw,110px);font-weight:700;color:var(--texte-clair);line-height:0.85;letter-spacing:-2px;text-transform:uppercase;text-shadow:0 0 40px rgba(26,106,154,0.3);animation:fi 0.8s ease 0.25s both;}
+.intro-sous{font-family:var(--mono);font-size:10px;letter-spacing:4px;color:var(--bleu-vif);text-transform:uppercase;margin:20px 0 32px;animation:fi 0.8s ease 0.4s both;}
+.intro-sep{display:flex;align-items:center;gap:16px;margin:0 auto 32px;animation:fi 0.8s ease 0.5s both;}
+.intro-sep-line{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(42,138,204,0.3),transparent);}
+.intro-sep-pt{width:4px;height:4px;background:var(--bleu-vif);border-radius:50%;}
+.intro-accroche{font-size:14px;color:var(--texte-dim);line-height:1.9;margin-bottom:48px;animation:fi 0.8s ease 0.6s both;font-style:italic;}
+.intro-btns{display:flex;flex-direction:column;align-items:center;gap:10px;animation:fi 0.8s ease 0.75s both;}
+.btn-intro-p{background:var(--bleu);border:1px solid var(--bleu-vif);color:#fff;font-family:var(--mono);font-size:11px;letter-spacing:3px;padding:15px 48px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;}
+.btn-intro-p:hover{background:var(--bleu-vif);}
+.btn-intro-s{background:none;border:none;color:var(--texte-dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;cursor:pointer;text-decoration:underline;text-underline-offset:4px;transition:color 0.2s;display:none;}
+.btn-intro-s:hover{color:var(--texte);}
+@keyframes fi{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+#ecran-setup{display:none;position:fixed;inset:0;z-index:200;background:var(--bg);overflow-y:auto;padding:20px;}
+.setup-inner{max-width:540px;margin:auto;padding:40px 0;}
+.setup-titre{font-family:var(--titre);font-size:28px;font-weight:700;color:var(--texte-clair);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;}
+.setup-sous{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--texte-dim);margin-bottom:40px;}
 .setup-bloc{margin-bottom:28px;}
 .setup-label{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);display:block;margin-bottom:8px;}
-.setup-input{width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:14px;padding:10px 12px;outline:none;transition:border-color 0.2s;border-radius:0;}
-.setup-input:focus{border-bottom-color:var(--violet-vif);}
+.setup-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-bottom:2px solid var(--bleu-dim);color:var(--texte-clair);font-family:var(--mono);font-size:14px;padding:10px 14px;outline:none;transition:border-color 0.2s;}
+.setup-input:focus{border-bottom-color:var(--bleu-vif);}
 .setup-input::placeholder{color:var(--texte-dim);}
-.agence-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
-.agence-carte{background:var(--bg3);border:2px solid var(--border);padding:16px 12px;cursor:pointer;transition:all 0.2s;text-align:center;position:relative;overflow:hidden;}
-.agence-carte::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.2s;}
-.agence-carte[data-agence="APEX"]::before{background:linear-gradient(135deg,rgba(122,32,224,0.15),transparent);}
-.agence-carte[data-agence="ORIGIN"]::before{background:linear-gradient(135deg,rgba(0,200,224,0.15),transparent);}
-.agence-carte[data-agence="SHADOW"]::before{background:linear-gradient(135deg,rgba(212,168,48,0.15),transparent);}
-.agence-carte:hover{border-color:var(--border2);}
-.agence-carte:hover::before,.agence-carte.sel::before{opacity:1;}
-.agence-carte.sel[data-agence="APEX"]{border-color:var(--violet-vif);}
-.agence-carte.sel[data-agence="ORIGIN"]{border-color:var(--cyan);}
-.agence-carte.sel[data-agence="SHADOW"]{border-color:var(--or);}
-.agence-nom{font-family:var(--titre);font-size:18px;font-weight:700;color:var(--texte-clair);letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
-.agence-nom[data-c="violet"]{color:var(--violet-vif);}
-.agence-nom[data-c="cyan"]{color:var(--cyan);}
-.agence-nom[data-c="or"]{color:var(--or);}
-.agence-desc{font-family:var(--corps);font-size:11px;font-style:italic;color:var(--texte-dim);line-height:1.4;}
-.pouvoir-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.pouvoir-carte{background:var(--bg3);border:2px solid var(--border);padding:14px;cursor:pointer;transition:all 0.2s;}
-.pouvoir-carte:hover{border-color:var(--border2);}
-.pouvoir-carte.sel{border-color:var(--violet-vif);background:rgba(122,32,224,0.08);}
-.pouvoir-nom{font-family:var(--titre);font-size:15px;font-weight:600;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
-.pouvoir-desc{font-family:var(--mono);font-size:10px;color:var(--texte-dim);line-height:1.4;}
-.profil-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-.profil-carte{background:var(--bg3);border:2px solid var(--border);padding:12px;cursor:pointer;transition:all 0.2s;text-align:center;}
-.profil-carte:hover{border-color:var(--border2);}
-.profil-carte.sel{border-color:var(--cyan);background:rgba(0,200,224,0.08);}
-.profil-nom{font-family:var(--titre);font-size:13px;font-weight:600;color:var(--texte-clair);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
-.profil-desc{font-family:var(--mono);font-size:9px;color:var(--texte-dim);line-height:1.4;}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.mode-carte{background:var(--bg3);border:2px solid var(--border);padding:12px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.role-carte{background:var(--bg3);border:2px solid var(--border);padding:18px;cursor:pointer;transition:all 0.2s;}
+.role-carte:hover{border-color:var(--border2);}
+.role-carte.sel{border-color:var(--bleu-vif);background:rgba(26,106,154,0.1);}
+.role-tag{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--bleu-vif);text-transform:uppercase;margin-bottom:6px;}
+.role-nom{font-family:var(--titre);font-size:18px;font-weight:700;color:var(--texte-clair);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;}
+.role-desc{font-size:13px;color:var(--texte-dim);line-height:1.5;font-style:italic;}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.mode-carte{background:var(--bg3);border:2px solid var(--border);padding:14px;cursor:pointer;transition:all 0.2s;text-align:center;}
 .mode-carte:hover{border-color:var(--border2);}
-.mode-carte.sel{border-color:var(--violet-vif);background:rgba(122,32,224,0.08);}
-.mode-nom{font-family:var(--titre);font-size:14px;font-weight:600;color:var(--texte-clair);text-transform:uppercase;letter-spacing:1px;}
-.mode-desc{font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-top:3px;}
-.slider-wrap{display:flex;align-items:center;gap:12px;}
-.slider{flex:1;-webkit-appearance:none;height:3px;background:var(--border2);outline:none;border-radius:2px;}
-.slider::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;background:linear-gradient(135deg,var(--violet-vif),var(--cyan));cursor:pointer;border-radius:50%;}
-.slider-val{font-family:var(--titre);font-size:20px;font-weight:600;color:var(--cyan);min-width:32px;}
-.btn-setup{width:100%;background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--titre);font-size:16px;font-weight:600;letter-spacing:3px;padding:16px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;margin-top:8px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));}
-.btn-setup:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
-.btn-setup:disabled{background:var(--bg4);cursor:not-allowed;clip-path:none;}
-
-/* REPRISE */
-#ecran-reprise{display:none;position:fixed;inset:0;z-index:250;background:rgba(8,8,15,0.97);align-items:center;justify-content:center;padding:20px;}
-.reprise-box{background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--violet-vif);max-width:440px;width:100%;padding:36px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%);}
-.reprise-tag{font-family:var(--mono);font-size:9px;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
-.reprise-titre{font-family:var(--titre);font-size:26px;font-weight:700;color:var(--texte-clair);margin-bottom:24px;}
-.reprise-info{margin-bottom:24px;border-left:2px solid var(--violet-dim);padding-left:14px;}
+.mode-carte.sel{border-color:var(--bleu-vif);background:rgba(26,106,154,0.08);}
+.mode-nom{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--texte-clair);margin-bottom:3px;letter-spacing:1px;text-transform:uppercase;}
+.mode-desc{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
+.btn-setup{width:100%;background:var(--bleu);border:1px solid var(--bleu-vif);color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:3px;padding:16px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;margin-top:8px;}
+.btn-setup:hover{background:var(--bleu-vif);}
+.btn-setup:disabled{background:var(--border);border-color:var(--border);cursor:not-allowed;}
+#ecran-reprise{display:none;position:fixed;inset:0;z-index:250;background:rgba(17,24,32,0.96);align-items:center;justify-content:center;padding:20px;}
+.reprise-box{background:var(--bg2);border:1px solid var(--border2);max-width:420px;width:100%;padding:36px;}
+.reprise-titre{font-family:var(--titre);font-size:24px;font-weight:700;color:var(--texte-clair);text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;}
+.reprise-sous{font-family:var(--mono);font-size:10px;color:var(--texte-dim);letter-spacing:2px;margin-bottom:24px;}
+.reprise-info{background:var(--bg3);padding:14px;margin-bottom:24px;border-left:2px solid var(--bleu-dim);}
 .reprise-ligne{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;font-family:var(--mono);}
 .reprise-cle{color:var(--texte-dim);}
-.reprise-val{color:var(--cyan);font-weight:500;}
+.reprise-val{color:var(--bleu-vif);}
 .reprise-btns{display:flex;gap:10px;}
 .reprise-btn{flex:1;padding:12px;border:none;font-family:var(--mono);font-size:10px;letter-spacing:2px;cursor:pointer;transition:all 0.2s;text-transform:uppercase;}
-.rbp{background:linear-gradient(135deg,var(--violet),var(--cyan-dim));color:#fff;}
-.rbp:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
+.rbp{background:var(--bleu);color:#fff;border:1px solid var(--bleu-vif);}
+.rbp:hover{background:var(--bleu-vif);}
 .rbn{background:var(--bg3);color:var(--texte-dim);border:1px solid var(--border2);}
-.rbn:hover{border-color:var(--violet-dim);color:var(--texte);}
-
-/* APP */
-#app{display:flex;flex-direction:column;min-height:100vh;max-width:1200px;margin:0 auto;padding:0 16px;position:relative;z-index:1;}
+.rbn:hover{border-color:var(--bleu-dim);color:var(--texte);}
+#app{display:flex;flex-direction:column;min-height:100vh;max-width:1100px;margin:0 auto;padding:0 16px;}
 header{display:flex;align-items:center;justify-content:space-between;padding:14px 0 12px;border-bottom:1px solid var(--border);flex-shrink:0;}
-.logo{font-family:var(--titre);font-size:22px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
-.logo .h{color:var(--violet-vif);}
-.logo .f{color:var(--cyan);}
+.logo{font-family:var(--titre);font-size:20px;font-weight:700;color:var(--texte-clair);text-transform:uppercase;letter-spacing:3px;}
 .header-droite{display:flex;align-items:center;gap:14px;}
-.tv-hdr{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--cyan);}
+.alerte-badge{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--alerte);border:1px solid var(--alerte-dim);padding:3px 8px;text-transform:uppercase;}
 .sauv{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
 .sauv.ok{color:var(--vert);}
-.sauv.cours{color:var(--or);}
+.sauv.cours{color:var(--alerte);}
+.sv-panel-btn{background:none;border:1px solid var(--border);color:var(--texte-dim);font-family:var(--mono);font-size:9px;padding:4px 10px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;}
+.sv-panel-btn:hover{border-color:var(--bleu-vif);color:var(--bleu-vif);}
+#sv-panel{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;}
+#sv-panel.open{display:block;}
+.sv-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+.sv-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--bleu-vif);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px;}
+.sv-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:11px;}
+.sv-key{color:var(--texte-dim);font-family:var(--mono);}
+.sv-val{color:var(--texte-clair);font-family:var(--mono);font-weight:bold;}
+.sv-bar-wrap{background:var(--bg4);height:2px;margin-top:1px;margin-bottom:4px;overflow:hidden;}
+.sv-bar{height:100%;transition:width 0.4s ease;}
+@media(max-width:700px){.sv-inner{grid-template-columns:1fr 1fr;}}
+.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;}
 .main{display:block;flex:1;padding:14px 0;min-height:0;}
-
-/* PANNEAU HEROS */
-.hero-panel{display:none;}
-.hp-bloc{background:var(--bg2);border:1px solid var(--border);position:relative;z-index:5;}
-.hp-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);background:var(--bg3);padding:5px 12px;border-bottom:1px solid var(--border);}
-.hp-inner{padding:12px 14px;}
-.tv-display{padding:16px 14px;text-align:center;background:linear-gradient(180deg,var(--bg2),var(--bg3));border-bottom:2px solid var(--violet-dim);}
-.tv-score{font-family:var(--titre);font-size:42px;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--violet-vif),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.tv-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--texte-dim);text-transform:uppercase;margin-top:2px;}
-.tv-tier{font-family:var(--titre);font-size:11px;font-weight:600;color:var(--or);letter-spacing:2px;text-transform:uppercase;margin-top:6px;}
-.tv-barre-wrap{background:var(--bg4);height:4px;margin-top:8px;border-radius:2px;overflow:hidden;}
-.tv-barre{height:100%;background:linear-gradient(90deg,var(--violet-vif),var(--cyan));transition:width 0.5s ease;border-radius:2px;}
-.hero-id{text-align:center;padding:14px 12px;}
-.hero-nom-hero{font-family:var(--titre);font-size:18px;font-weight:700;color:var(--texte-clair);letter-spacing:1px;text-transform:uppercase;}
-.hero-nom-civil{font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:2px;}
-.hero-agence{font-family:var(--mono);font-size:9px;letter-spacing:2px;margin-top:6px;text-transform:uppercase;}
-.agence-apex{color:var(--violet-vif);}
-.agence-origin{color:var(--cyan);}
-.agence-shadow{color:var(--or);}
-.hp-ligne{display:flex;justify-content:space-between;align-items:center;padding:3px 0;}
-.hp-nom{font-family:var(--mono);font-size:10px;color:var(--texte-dim);}
-.hp-val{font-family:var(--mono);font-size:11px;color:var(--cyan);font-weight:500;}
-.hp-barre-wrap{background:var(--bg4);height:2px;margin-top:2px;margin-bottom:5px;overflow:hidden;border-radius:1px;}
-.hp-barre{height:100%;background:var(--violet-vif);transition:width 0.4s ease;border-radius:1px;}
-.hp-barre.cyan{background:var(--cyan);}
-.hp-barre.or{background:var(--or);}
-.followers-display{text-align:center;padding:10px 14px;}
-.followers-count{font-family:var(--titre);font-size:24px;font-weight:700;color:var(--violet-vif);}
-.followers-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--texte-dim);text-transform:uppercase;}
-.inv-item{font-family:var(--mono);font-size:10px;color:var(--texte-dim);padding:3px 0;border-bottom:1px solid var(--border);}
-.inv-item:last-child{border-bottom:none;}
-.inv-vide{font-family:var(--mono);font-size:10px;color:var(--border2);font-style:italic;}
-
-/* Panneau déroulant */
-.hf-panel-btn{background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;padding:4px 10px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;text-transform:uppercase;}
-.hf-panel-btn:hover{border-color:var(--violet-vif);color:var(--violet-vif);}
-#hf-panel{display:none;background:var(--bg2);border-bottom:1px solid var(--border);padding:12px 0;}
-#hf-panel.open{display:block;}
-.hf-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
-.hf-title{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--violet);border-bottom:1px solid var(--border);padding-bottom:5px;margin-bottom:8px;}
-.hf-row{display:flex;justify-content:space-between;align-items:center;padding:2px 0;font-size:11px;}
-.hf-key{color:var(--texte-dim);font-family:var(--mono);}
-.hf-val{color:var(--violet-vif);font-family:var(--mono);font-weight:bold;}
-.hf-bar-wrap{background:var(--bg4);height:2px;margin-top:1px;margin-bottom:4px;overflow:hidden;}
-.hf-bar{height:100%;background:var(--violet);transition:width 0.4s ease;}
-@media(max-width:700px){.hf-inner{grid-template-columns:1fr 1fr;}}
-.btn-prem{width:100%;padding:11px;background:linear-gradient(135deg,var(--violet-dim),var(--cyan-dim));color:#fff;border:none;font-family:var(--mono);font-size:9px;letter-spacing:2px;cursor:pointer;text-transform:uppercase;transition:opacity 0.2s;}
-.btn-prem:hover{opacity:0.85;}
-
-/* JEU */
-.jeu-panel{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;z-index:5;}
-#recit{flex:1;background:var(--bg2);border:1px solid var(--border);border-top:2px solid var(--violet-dim);padding:22px;overflow-y:auto;min-height:calc(100svh - 140px);padding-bottom:85px;position:relative;z-index:5;}
-.entree{margin-bottom:22px;animation:fadeIn 0.35s ease;position:relative;z-index:5;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-.entree p{font-family:var(--corps);font-size:21px;line-height:1.9;color:var(--texte);margin-bottom:10px;}
-.action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:7px 12px;border-left:3px solid var(--violet-dim);margin-bottom:12px;background:rgba(122,32,224,0.05);}
-.post-social{background:var(--bg3);border:1px solid var(--border2);border-left:3px solid var(--cyan);padding:14px 16px;margin:10px 0;}
-.post-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.post-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--violet-dim),var(--cyan-dim));display:flex;align-items:center;justify-content:center;font-family:var(--titre);font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
-.post-auteur{font-family:var(--mono);font-size:11px;color:var(--cyan);}
-.post-date{font-family:var(--mono);font-size:9px;color:var(--texte-dim);margin-left:auto;}
-.post-texte{font-family:var(--corps);font-size:13px;color:var(--texte);line-height:1.6;}
-.post-stats{font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:8px;}
-.tv-moment{background:linear-gradient(135deg,rgba(122,32,224,0.15),rgba(0,200,224,0.1));border:1px solid var(--violet-dim);padding:16px 20px;margin:10px 0;text-align:center;}
-.tv-moment-label{font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;}
-.tv-moment-valeur{font-family:var(--titre);font-size:24px;font-weight:700;color:var(--texte-clair);}
-.tv-moment-valeur.hausse{color:var(--vert);}
-.tv-moment-valeur.baisse{color:var(--rouge);}
-.maj-stats{font-family:var(--mono);font-size:11px;color:var(--cyan);padding:6px 10px;background:rgba(0,200,224,0.06);border-left:2px solid var(--cyan-dim);margin-top:8px;letter-spacing:1px;}
-.sep{border:none;border-top:1px solid var(--border);margin:14px 0;}
-.curseur{display:inline-block;width:2px;height:14px;background:var(--violet-vif);animation:clign 0.7s infinite;vertical-align:text-bottom;margin-left:2px;}
+#recit{flex:1;background:var(--bg2);border:1px solid var(--border);padding:24px;overflow-y:auto;min-height:calc(100svh - 140px);font-family:var(--titre);padding-bottom:85px;}
+.entree{margin-bottom:20px;animation:fadeIn 0.4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.entree p{font-size:22px;line-height:1.9;color:var(--texte-clair);margin-bottom:10px;}
+.action-joueur{font-family:var(--mono);font-size:11px;color:var(--texte-dim);padding:7px 12px;border-left:2px solid var(--border2);margin-bottom:12px;letter-spacing:0.5px;}
+.maj-stats{font-family:var(--mono);font-size:11px;color:var(--bleu-vif);padding:6px 10px;background:rgba(26,106,154,0.07);border-left:2px solid var(--bleu-dim);margin-top:8px;letter-spacing:1px;}
+.sep{border:none;border-top:1px solid var(--border);margin:14px 0;opacity:0.5;}
+.curseur{display:inline-block;width:2px;height:14px;background:var(--bleu-vif);animation:clign 0.7s infinite;vertical-align:text-bottom;margin-left:2px;}
 @keyframes clign{0%,50%{opacity:1;}51%,100%{opacity:0;}}
-.choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-top:2px solid var(--violet-vif);padding:14px 16px;margin-top:12px;position:relative;z-index:10;}
+.choix-bloc{background:var(--bg3);border:1px solid var(--border2);border-left:2px solid var(--bleu-dim);padding:14px 16px;margin-top:12px;}
 .choix-titre{font-family:var(--mono);font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--texte-dim);margin-bottom:10px;}
-.choix-btn{display:block;width:100%;text-align:left;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;color:var(--texte-clair);font-family:var(--corps);font-size:18px;padding:13px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;position:relative;z-index:10;pointer-events:auto;}
-.choix-btn:hover{background:rgba(122,32,224,0.15);border-left-color:var(--violet-vif);border-color:var(--violet-dim);}
+.choix-btn{display:block;width:100%;text-align:left;background:none;border:1px solid var(--border);color:var(--texte);font-family:var(--titre);font-size:19px;padding:12px 14px;margin-bottom:7px;cursor:pointer;transition:all 0.2s;line-height:1.5;}
+.choix-btn:hover{background:rgba(26,106,154,0.12);border-color:var(--bleu-dim);color:var(--texte-clair);}
 .choix-btn:last-child{margin-bottom:0;}
-.input-zone{display:flex;gap:8px;flex-shrink:0;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:10px 16px;z-index:100;max-width:1200px;margin:0 auto;box-sizing:border-box;}
-#input-joueur{flex:1;background:var(--bg2);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--corps);font-size:14px;padding:12px 14px;resize:none;height:52px;outline:none;transition:border-color 0.2s;}
-#input-joueur:focus{border-bottom-color:var(--violet-vif);}
+.input-zone{display:flex;gap:8px;flex-shrink:0;position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border);padding:10px 16px;z-index:100;max-width:1100px;margin:0 auto;box-sizing:border-box;}
+#input-joueur{flex:1;background:var(--bg2);border:1px solid var(--border);color:var(--texte);font-family:var(--titre);font-size:14px;padding:12px 14px;resize:none;height:52px;outline:none;transition:border-color 0.2s;}
+#input-joueur:focus{border-color:var(--bleu-dim);}
 #input-joueur::placeholder{color:var(--texte-dim);font-style:italic;}
-#input-joueur:disabled{opacity:0.4;}
-#btn-envoyer{background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:0 18px;cursor:pointer;transition:all 0.2s;flex-shrink:0;text-transform:uppercase;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,0 100%);}
-#btn-envoyer:hover{background:linear-gradient(135deg,var(--violet-vif),var(--cyan));}
-#btn-envoyer:disabled{background:var(--bg4);cursor:not-allowed;clip-path:none;}
+#btn-envoyer{background:var(--bleu);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:0 18px;cursor:pointer;transition:background 0.2s;flex-shrink:0;text-transform:uppercase;}
+#btn-envoyer:hover{background:var(--bleu-vif);}
+#btn-envoyer:disabled{background:var(--border);cursor:not-allowed;}
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--bg);}
-::-webkit-scrollbar-thumb{background:var(--violet-dim);border-radius:2px;}
-::-webkit-scrollbar-thumb:hover{background:var(--violet-vif);}
+::-webkit-scrollbar-thumb{background:var(--border2);}
+::-webkit-scrollbar-thumb:hover{background:var(--bleu-dim);}
 @media(max-width:700px){
   #app{padding:0 8px;}
-  .main{flex-direction:column;gap:8px;padding:8px 0;}
-  #recit{min-height:calc(100vh - 160px);padding:16px;padding-bottom:85px;}
+  #recit{padding:16px;padding-bottom:85px;}
   .entree p{font-size:19px;line-height:1.85;}
-  .choix-btn{font-size:17px;padding:13px 12px;}
-  .logo{font-size:17px;}
-  .agence-grid,.profil-grid{grid-template-columns:1fr;}
-  .pouvoir-grid,.mode-grid{grid-template-columns:1fr 1fr;}
+  .choix-btn{font-size:17px;padding:12px;}
+  .logo{font-size:16px;}
 }
 </style>
 </head>
@@ -239,106 +138,61 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
   <a href="https://recitgames.vercel.app">&#9664; RÉCIT GAMES</a>
 </div>
 
-<!-- INTRO -->
 <div id="ecran-intro">
   <div class="intro-inner">
-    <div class="intro-tag">Neo-Tokyo · Trust Value System · Roman interactif</div>
-    <div class="intro-tv-label">Trust Value</div>
-    <div class="intro-tv-bar"><div class="intro-tv-fill"></div></div>
-    <div class="intro-titre"><span class="h">HERO</span><br><span class="f">FEED</span></div>
-    <div class="intro-sep"><div class="intro-sep-line"></div><div class="intro-sep-dot"></div><div class="intro-sep-line"></div></div>
-    <div class="intro-accroche">Sauver des gens ne suffit pas.<br>Il faut être aimé en le faisant.<br>La foule est ta batterie.</div>
+    <div class="intro-tag">Récit Games · Survie · Roman interactif</div>
+    <div class="intro-titre">SURVIVANTS</div>
+    <div class="intro-sous">Ils vous ont laissés pour morts. Erreur.</div>
+    <div class="intro-sep">
+      <div class="intro-sep-line"></div>
+      <div class="intro-sep-pt"></div>
+      <div class="intro-sep-line"></div>
+    </div>
+    <div class="intro-accroche">
+      Un avion. Trente-deux passagers. Une île sans nom.<br>
+      Quelqu'un parmi vous ne voulait pas de survivants.<br>
+      La nature vous tue. Les autres aussi.
+    </div>
     <div class="intro-btns">
-      <button class="btn-intro-p" onclick="afficherSetup()">Créer son héros</button>
-      <button class="btn-intro-s" id="btn-reprendre-intro" onclick="clicReprendre()">Reprendre</button>
+      <button class="btn-intro-p" onclick="afficherSetup()">Survivre</button>
+      <button class="btn-intro-s" id="btn-reprendre-intro" onclick="clicReprendre()">Reprendre ma partie</button>
     </div>
   </div>
 </div>
 
-<!-- SETUP -->
 <div id="ecran-setup">
-  <div class="setup-wrap">
-    <div class="setup-entete">
-      <div class="setup-tag">Création du héros — Neo-Tokyo</div>
-      <div class="setup-titre"><span>Hero</span> Feed</div>
-    </div>
-
+  <div class="setup-inner">
+    <div class="setup-titre">Survivants</div>
+    <div class="setup-sous">Configuration — Récit Games</div>
     <div class="setup-bloc">
-      <label class="setup-label">Nom civil</label>
-      <input class="setup-input" type="text" id="prenom-input" placeholder="Prénom Nom..." maxlength="30"/>
+      <label class="setup-label">Ton prénom</label>
+      <input class="setup-input" type="text" id="prenom-input" placeholder="Ton prénom..." maxlength="20"/>
     </div>
-
     <div class="setup-bloc">
-      <label class="setup-label">Nom de héros</label>
-      <input class="setup-input" type="text" id="nom-hero-input" placeholder="Le nom que la foule crie..." maxlength="25"/>
-    </div>
-
-    <div class="setup-bloc">
-      <label class="setup-label">Âge</label>
-      <div class="slider-wrap">
-        <input type="range" class="slider" id="age-slider" min="17" max="25" value="19"/>
-        <span class="slider-val" id="age-val">19</span>
-      </div>
-    </div>
-
-    <div class="setup-bloc">
-      <label class="setup-label">Agence</label>
-      <div class="agence-grid">
-        <div class="agence-carte" data-agence="APEX" onclick="choisirAgence('APEX')">
-          <div class="agence-nom" data-c="violet">APEX</div>
-          <div class="agence-desc">L'agence dominante. Marketing total. TV rapide — autonomie sacrifiée.</div>
+      <label class="setup-label">Ton rôle dans l'avion</label>
+      <div class="role-grid">
+        <div class="role-carte" id="role-medecin" onclick="choisirRole('medecin')">
+          <div class="role-tag">Médical</div>
+          <div class="role-nom">Médecin</div>
+          <div class="role-desc">Tu sauves des vies. Mais tu as quitté ta femme et tes enfants pour ça.</div>
         </div>
-        <div class="agence-carte" data-agence="ORIGIN" onclick="choisirAgence('ORIGIN')">
-          <div class="agence-nom" data-c="cyan">ORIGIN</div>
-          <div class="agence-desc">L'agence idéaliste. Authenticité pure. TV stable — progression lente.</div>
+        <div class="role-carte" id="role-militaire" onclick="choisirRole('militaire')">
+          <div class="role-tag">Forces spéciales</div>
+          <div class="role-nom">Ancienne militaire</div>
+          <div class="role-desc">Tu sais survivre. Tu sais aussi que quelqu'un a saboté cet avion.</div>
         </div>
-        <div class="agence-carte" data-agence="SHADOW" onclick="choisirAgence('SHADOW')">
-          <div class="agence-nom" data-c="or">SHADOW</div>
-          <div class="agence-desc">L'agence ambiguë. Méthodes opaques. TV explosive — histoire trouble.</div>
+        <div class="role-carte" id="role-ingenieur" onclick="choisirRole('ingenieur')">
+          <div class="role-tag">Technique</div>
+          <div class="role-nom">Ingénieur</div>
+          <div class="role-desc">Tu as repéré l'anomalie trois minutes avant l'impact. Tu t'es attaché.</div>
+        </div>
+        <div class="role-carte" id="role-journaliste" onclick="choisirRole('journaliste')">
+          <div class="role-tag">Enquête</div>
+          <div class="role-nom">Journaliste</div>
+          <div class="role-desc">Tu étais en route pour révéler quelque chose. Ce n'est peut-être pas un accident.</div>
         </div>
       </div>
     </div>
-
-    <div class="setup-bloc">
-      <label class="setup-label">Catégorie de pouvoir</label>
-      <div class="pouvoir-grid">
-        <div class="pouvoir-carte" id="pouvoir-Physique" onclick="choisirPouvoir('Physique')">
-          <div class="pouvoir-nom">Physique</div>
-          <div class="pouvoir-desc">Force, vitesse, résistance. Simple à comprendre pour le public.</div>
-        </div>
-        <div class="pouvoir-carte" id="pouvoir-Élémentaire" onclick="choisirPouvoir('Élémentaire')">
-          <div class="pouvoir-nom">Élémentaire</div>
-          <div class="pouvoir-desc">Feu, eau, foudre, glace. Spectaculaire — dégâts collatéraux fréquents.</div>
-        </div>
-        <div class="pouvoir-carte" id="pouvoir-Psychique" onclick="choisirPouvoir('Psychique')">
-          <div class="pouvoir-nom">Psychique</div>
-          <div class="pouvoir-desc">Télékinèse, télépathie. Difficile à expliquer — fans très engagés.</div>
-        </div>
-        <div class="pouvoir-carte" id="pouvoir-Technique" onclick="choisirPouvoir('Technique')">
-          <div class="pouvoir-nom">Technique</div>
-          <div class="pouvoir-desc">Pas de pouvoir inné. La TV amplifie la technologie de façon inexplicable.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="setup-bloc">
-      <label class="setup-label">Profil de communication</label>
-      <div class="profil-grid">
-        <div class="profil-carte" id="profil-Authentique" onclick="choisirProfil('Authentique')">
-          <div class="profil-nom">Authentique</div>
-          <div class="profil-desc">Ce qu'il montre est ce qu'il est. TV stable mais lente.</div>
-        </div>
-        <div class="profil-carte" id="profil-Performeur" onclick="choisirProfil('Performeur')">
-          <div class="profil-nom">Performeur</div>
-          <div class="profil-desc">Sait ce que le public veut voir. TV rapide — fragile.</div>
-        </div>
-        <div class="profil-carte" id="profil-Mystérieux" onclick="choisirProfil('Mystérieux')">
-          <div class="profil-nom">Mystérieux</div>
-          <div class="profil-desc">Laisse les autres parler de lui. TV par fascination.</div>
-        </div>
-      </div>
-    </div>
-
     <div class="setup-bloc">
       <label class="setup-label">Mode d'interaction</label>
       <div class="mode-grid">
@@ -347,144 +201,86 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
           <div class="mode-desc">4 choix proposés</div>
         </div>
         <div class="mode-carte" id="mode-libre" onclick="choisirMode('libre')">
-          <div class="mode-nom">Texte libre</div>
-          <div class="mode-desc">Tu décides</div>
+          <div class="mode-nom">Libre</div>
+          <div class="mode-desc">Tu décides toi-même</div>
         </div>
       </div>
     </div>
-
-    <button class="btn-setup" id="btn-lancer" onclick="lancerJeu()" disabled>Entrer dans Neo-Tokyo</button>
+    <button class="btn-setup" id="btn-lancer" onclick="lancerJeu()" disabled>S'écraser sur l'île</button>
     <p style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);text-align:center;margin-top:12px;letter-spacing:1px;">Progression sauvegardée automatiquement</p>
   </div>
 </div>
 
-<!-- REPRISE -->
 <div id="ecran-reprise">
   <div class="reprise-box">
-    <div class="reprise-tag">Héros en attente</div>
-    <div class="reprise-titre">Hero Feed</div>
+    <div class="reprise-titre">Survivants</div>
+    <div class="reprise-sous">Partie sauvegardée</div>
     <div class="reprise-info" id="reprise-info"></div>
     <div class="reprise-btns">
-      <button class="reprise-btn rbp" id="btn-continuer">Reprendre</button>
-      <button class="reprise-btn rbn" id="btn-nouvelle">Nouveau héros</button>
+      <button class="reprise-btn rbp" id="btn-continuer">Continuer</button>
+      <button class="reprise-btn rbn" id="btn-nouvelle">Nouvelle partie</button>
     </div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <header>
-    <div class="logo"><span class="h">HERO</span> <span class="f">FEED</span></div>
+    <div class="logo">Survivants</div>
     <div class="header-droite">
-      <div class="tv-hdr">TV <span id="tv-hdr-val">15</span></div>
-      <button onclick="basculerMode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;" id="btn-mode-switch">Mode: Boutons</button>
-      <button onclick="nouveauHeros()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:9px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:all 0.2s;">Nouveau héros</button>
+      <div class="alerte-badge" id="alerte-badge">Jour 1</div>
       <div class="sauv" id="sauv-ind">● prêt</div>
-      <button class="hf-panel-btn" onclick="toggleHfPanel()">Héros ▾</button>
+      <button class="sv-panel-btn" onclick="toggleSvPanel()">Survie ▾</button>
     </div>
   </header>
 
-  <!-- Panneau déroulant -->
-  <div id="hf-panel">
-    <div class="hf-inner">
+  <div id="sv-panel">
+    <div class="sv-inner">
       <div>
-        <div class="hf-title">Identité</div>
-        <div style="font-family:var(--titre);font-size:18px;font-weight:700;color:var(--violet-vif);letter-spacing:1px;" id="hf-nom-hero">—</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:2px;" id="hf-nom-civil">—</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);margin-top:3px;" id="hf-agence">—</div>
-        <div class="hf-row" style="margin-top:6px;"><span class="hf-key">Arc</span><span class="hf-val" id="hf-arc">1</span></div>
-        <div class="hf-row"><span class="hf-key">Rang</span><span class="hf-val" id="hf-rang">Recrue</span></div>
-        <div class="hf-row"><span class="hf-key">Cash</span><span class="hf-val" id="hf-cash">¥0</span></div>
+        <div class="sv-title">Survivant</div>
+        <div style="font-family:var(--titre);font-size:16px;font-weight:700;color:var(--texte-clair);text-transform:uppercase;letter-spacing:1px;" id="sv-nom">—</div>
+        <div style="font-family:var(--mono);font-size:9px;color:var(--bleu-vif);letter-spacing:2px;text-transform:uppercase;margin-top:3px;" id="sv-role">—</div>
+        <div class="sv-row" style="margin-top:8px;"><span class="sv-key">Jour</span><span class="sv-val" id="sv-jour">1</span></div>
+        <div class="sv-row"><span class="sv-key">Lieu</span><span class="sv-val" id="sv-lieu" style="font-size:10px;">Plage</span></div>
+        <div class="sv-row"><span class="sv-key">Survivants</span><span class="sv-val" id="sv-nb-surv">?</span></div>
       </div>
       <div>
-        <div class="hf-title">Trust Value</div>
-        <div style="font-family:var(--titre);font-size:32px;font-weight:700;color:var(--violet-vif);line-height:1;" id="hf-tv">15</div>
-        <div style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:2px;" id="hf-tier">Inconnu</div>
-        <div class="hf-bar-wrap" style="margin-top:6px;height:4px;"><div class="hf-bar" id="hf-tv-bar" style="width:1.5%;background:var(--violet-vif);"></div></div>
-        <div class="hf-row" style="margin-top:6px;"><span class="hf-key">Followers</span><span class="hf-val" id="hf-followers" style="color:var(--cyan);">0</span></div>
+        <div class="sv-title">Condition</div>
+        <div class="sv-row"><span class="sv-key">❤ Santé</span><span class="sv-val" id="sv-sante">100</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-sante" style="width:100%;background:#cc3333;"></div></div>
+        <div class="sv-row"><span class="sv-key">🍖 Faim</span><span class="sv-val" id="sv-faim">100</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-faim" style="width:100%;background:#cc8833;"></div></div>
+        <div class="sv-row"><span class="sv-key">💧 Eau</span><span class="sv-val" id="sv-eau">100</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-eau" style="width:100%;background:var(--bleu-vif);"></div></div>
+        <div class="sv-row"><span class="sv-key">◈ Moral</span><span class="sv-val" id="sv-moral">80</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-moral" style="width:80%;background:#4a9a4a;"></div></div>
       </div>
       <div>
-        <div class="hf-title">Stats</div>
-        <div class="hf-row"><span class="hf-key">Puissance</span><span class="hf-val" id="hf-puissance">30</span></div>
-        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-puissance" style="width:30%;"></div></div>
-        <div class="hf-row"><span class="hf-key">Agilité</span><span class="hf-val" id="hf-agilite">30</span></div>
-        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-agilite" style="width:30%;background:var(--cyan);"></div></div>
-        <div class="hf-row"><span class="hf-key">Résistance</span><span class="hf-val" id="hf-resistance">30</span></div>
-        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-resistance" style="width:30%;"></div></div>
-        <div class="hf-row"><span class="hf-key">Charisme</span><span class="hf-val" id="hf-charisme">40</span></div>
-        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-charisme" style="width:40%;background:var(--or);"></div></div>
-        <div class="hf-row"><span class="hf-key">Stratégie</span><span class="hf-val" id="hf-strategie">35</span></div>
-        <div class="hf-bar-wrap"><div class="hf-bar" id="hf-b-strategie" style="width:35%;background:var(--cyan);"></div></div>
+        <div class="sv-title">Compétences</div>
+        <div class="sv-row"><span class="sv-key">Survie</span><span class="sv-val" id="sv-survie-sk">50</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-survie-sk" style="width:50%;background:var(--bleu-vif);"></div></div>
+        <div class="sv-row"><span class="sv-key">Médecine</span><span class="sv-val" id="sv-medecine">20</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-medecine" style="width:20%;background:#4a9a6a;"></div></div>
+        <div class="sv-row"><span class="sv-key">Enquête</span><span class="sv-val" id="sv-enquete">20</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-enquete" style="width:20%;background:#9a8a4a;"></div></div>
+        <div class="sv-row"><span class="sv-key">Leadership</span><span class="sv-val" id="sv-leadership">30</span></div>
+        <div class="sv-bar-wrap"><div class="sv-bar" id="sv-b-leadership" style="width:30%;background:#4a6a9a;"></div></div>
       </div>
       <div>
-        <div class="hf-title">Inventaire</div>
-        <div id="hf-inventaire"><div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div></div>
-        <div style="margin-top:12px;">
-          <button class="btn-prem" onclick="afficherSaisieCode()">Premium — 7€/mois</button>
+        <div class="sv-title">Inventaire</div>
+        <div id="sv-inventaire"><div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div></div>
+        <div style="margin-top:10px;">
+          <button style="width:100%;padding:10px;background:linear-gradient(135deg,var(--bleu-dim),var(--bleu));color:#fff;border:1px solid var(--bleu-vif);font-family:var(--mono);font-size:9px;cursor:pointer;letter-spacing:2px;text-transform:uppercase;" onclick="afficherSaisieCode()">Premium — 7€/mois</button>
         </div>
       </div>
     </div>
   </div>
 
   <div class="main">
-    <div class="hero-panel">
-      <div class="hp-bloc">
-        <div class="tv-display">
-          <div class="tv-score" id="tv-score">15</div>
-          <div class="tv-label">Trust Value</div>
-          <div class="tv-tier" id="tv-tier">Inconnu</div>
-          <div class="tv-barre-wrap"><div class="tv-barre" id="tv-barre" style="width:1.5%"></div></div>
-        </div>
-      </div>
-      <div class="hp-bloc hero-id">
-        <div class="hero-nom-hero" id="h-nom-hero">—</div>
-        <div class="hero-nom-civil" id="h-nom-civil">—</div>
-        <div class="hero-agence agence-apex" id="h-agence">—</div>
-      </div>
-      <div class="hp-bloc">
-        <div class="hp-titre">Followers</div>
-        <div class="hp-inner followers-display">
-          <div class="followers-count" id="h-followers">0</div>
-          <div class="followers-label">abonnés</div>
-        </div>
-      </div>
-      <div class="hp-bloc">
-        <div class="hp-titre">Stats</div>
-        <div class="hp-inner">
-          <div class="hp-ligne"><span class="hp-nom">Puissance</span><span class="hp-val" id="s-puissance">30</span></div>
-          <div class="hp-barre-wrap"><div class="hp-barre" id="b-puissance" style="width:30%"></div></div>
-          <div class="hp-ligne"><span class="hp-nom">Agilité</span><span class="hp-val" id="s-agilite">30</span></div>
-          <div class="hp-barre-wrap"><div class="hp-barre cyan" id="b-agilite" style="width:30%"></div></div>
-          <div class="hp-ligne"><span class="hp-nom">Résistance</span><span class="hp-val" id="s-resistance">30</span></div>
-          <div class="hp-barre-wrap"><div class="hp-barre" id="b-resistance" style="width:30%"></div></div>
-          <div class="hp-ligne"><span class="hp-nom">Charisme</span><span class="hp-val" id="s-charisme">40</span></div>
-          <div class="hp-barre-wrap"><div class="hp-barre or" id="b-charisme" style="width:40%"></div></div>
-          <div class="hp-ligne"><span class="hp-nom">Stratégie</span><span class="hp-val" id="s-strategie">35</span></div>
-          <div class="hp-barre-wrap"><div class="hp-barre cyan" id="b-strategie" style="width:35%"></div></div>
-        </div>
-      </div>
-      <div class="hp-bloc">
-        <div class="hp-titre">Rang agence</div>
-        <div class="hp-inner">
-          <div class="hp-ligne"><span class="hp-nom">Rang</span><span class="hp-val" id="h-rang">Recrue</span></div>
-          <div class="hp-ligne"><span class="hp-nom">Arc</span><span class="hp-val" id="h-arc">1</span></div>
-          <div class="hp-ligne"><span class="hp-nom">Cash</span><span class="hp-val" id="h-cash">¥0</span></div>
-        </div>
-      </div>
-      <div class="hp-bloc">
-        <div class="hp-titre">Inventaire</div>
-        <div class="hp-inner"><div id="inv-liste"><div class="inv-vide">Vide</div></div></div>
-      </div>
-      <div class="hp-bloc" style="padding:10px 14px;">
-        <button class="btn-prem" onclick="afficherSaisieCode()">Premium — 7€/mois</button>
-      </div>
-    </div>
-
     <div class="jeu-panel">
       <div id="recit"></div>
       <div class="input-zone">
-        <textarea id="input-joueur" placeholder="Que fais-tu ?" style="display:none;"></textarea>
-        <button id="btn-envoyer" style="display:none;">Agir</button>
+        <textarea id="input-joueur" placeholder="Que fais-tu ? (Entrée pour envoyer)"></textarea>
+        <button id="btn-envoyer">Agir</button>
       </div>
     </div>
   </div>
@@ -492,287 +288,295 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 <script>
 const G = {
-  nomCivil:'', nomHero:'', age:19, agence:'', pouvoir:'', profil:'', mode:'boutons',
-  tv:15, followers:0, cash:0, arc:1, rang:'Recrue',
-  nbChoix:0, inventaire:[], historique:[], saveTO:null, adminMode:false,
-  stats:{ puissance:30, agilite:30, resistance:30, charisme:40, strategie:35 }
+  prenom:'', role:'', mode:'boutons',
+  jour:1, lieu:'Plage d\'atterrissage', nbChoix:0,
+  sante:100, faim:100, eau:100, moral:80,
+  survieSkill:50, medecine:20, enquete:20, leadership:30,
+  nbSurvivants:'?', inventaire:[], historique:[], saveTO:null,
+  adminMode:false, etatCritique:false
 };
-const PAYWALL = 20;
+const PAYWALL=20;
 
-function getTvTier(tv){
-  if(tv<=100)return'Inconnu';if(tv<=300)return'Héros local';
-  if(tv<=600)return'Héros régional';if(tv<=850)return'Héros national';return'Légende';
-}
+const ROLES={
+  medecin:{survie:40,medecine:80,enquete:30,leadership:50},
+  militaire:{survie:80,medecine:40,enquete:60,leadership:60},
+  ingenieur:{survie:70,medecine:20,enquete:50,leadership:30},
+  journaliste:{survie:30,medecine:20,enquete:90,leadership:40}
+};
+const ROLES_LABEL={medecin:'Médecin',militaire:'Ancienne militaire',ingenieur:'Ingénieur',journaliste:'Journaliste'};
 
 function afficherSetup(){
   document.getElementById('ecran-intro').style.display='none';
   document.getElementById('ecran-setup').style.display='block';
-  const save=charger();
-  if(save){
-    if(save.nomCivil)document.getElementById('prenom-input').value=save.nomCivil;
-    if(save.nomHero)document.getElementById('nom-hero-input').value=save.nomHero;
-    if(save.age){document.getElementById('age-slider').value=save.age;document.getElementById('age-val').textContent=save.age;}
-    if(save.agence)choisirAgence(save.agence);
-    if(save.pouvoir)choisirPouvoir(save.pouvoir);
-    if(save.profil)choisirProfil(save.profil);
-    if(save.mode)choisirMode(save.mode);
-  }
 }
-function choisirAgence(a){G.agence=a;document.querySelectorAll('.agence-carte').forEach(c=>c.classList.remove('sel'));document.querySelector(`.agence-carte[data-agence="${a}"]`)?.classList.add('sel');verifierSetup();}
-function choisirPouvoir(p){
-  G.pouvoir=p;document.querySelectorAll('.pouvoir-carte').forEach(c=>c.classList.remove('sel'));document.getElementById('pouvoir-'+p)?.classList.add('sel');
-  if(p==='Physique'){Object.assign(G.stats,{puissance:50,resistance:45,agilite:35,charisme:35,strategie:30});}
-  else if(p==='Élémentaire'){Object.assign(G.stats,{puissance:45,agilite:40,resistance:30,charisme:40,strategie:30});}
-  else if(p==='Psychique'){Object.assign(G.stats,{puissance:30,agilite:35,resistance:30,charisme:45,strategie:50});}
-  else{Object.assign(G.stats,{puissance:35,agilite:40,resistance:35,charisme:40,strategie:50});}
+function choisirRole(r){
+  G.role=r;
+  document.querySelectorAll('.role-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('role-'+r).classList.add('sel');
+  const sk=ROLES[r];
+  G.survieSkill=sk.survie;G.medecine=sk.medecine;G.enquete=sk.enquete;G.leadership=sk.leadership;
   verifierSetup();
 }
-function choisirProfil(p){G.profil=p;document.querySelectorAll('.profil-carte').forEach(c=>c.classList.remove('sel'));document.getElementById('profil-'+p)?.classList.add('sel');verifierSetup();}
 function choisirMode(m){
-  G.mode=m;document.querySelectorAll('.mode-carte').forEach(c=>c.classList.remove('sel'));document.getElementById('mode-'+m).classList.add('sel');
-  const inp=document.getElementById('input-joueur');const btn=document.getElementById('btn-envoyer');
-  if(m==='boutons'){inp.style.display='none';btn.style.display='none';}else{inp.style.display='flex';btn.style.display='flex';}
+  G.mode=m;
+  document.querySelectorAll('.mode-carte').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('mode-'+m).classList.add('sel');
+  document.getElementById('input-joueur').style.display=m==='boutons'?'none':'flex';
 }
-function verifierSetup(){document.getElementById('btn-lancer').disabled=!(G.agence&&G.pouvoir&&G.profil);}
-document.getElementById('age-slider').addEventListener('input',function(){G.age=parseInt(this.value);document.getElementById('age-val').textContent=this.value;});
+function verifierSetup(){
+  document.getElementById('btn-lancer').disabled=!(G.role&&document.getElementById('prenom-input').value.trim());
+}
+document.getElementById('prenom-input').addEventListener('input',verifierSetup);
 
 function lancerJeu(){
-  if(!G.agence||!G.pouvoir||!G.profil){alert('Complète tous les champs.');return;}
-  G.nomCivil=document.getElementById('prenom-input').value.trim()||'Hiro Tanaka';
-  G.nomHero=document.getElementById('nom-hero-input').value.trim()||'Zero';
-  G.age=parseInt(document.getElementById('age-slider').value);
+  G.prenom=document.getElementById('prenom-input').value.trim()||'Alexis';
   const save=charger();
-  if(save&&save.historique&&save.historique.length>0&&save.agence===G.agence){
-    fromSave(save);document.getElementById('ecran-setup').style.display='none';afficherReprise(save);return;
+  if(save&&save.historique&&save.historique.length>0&&save.role===G.role){
+    fromSave(save);
+    document.getElementById('ecran-setup').style.display='none';
+    afficherReprise(save);return;
   }
   document.getElementById('ecran-setup').style.display='none';
-  choisirMode(G.mode);document.getElementById('btn-mode-switch').textContent=G.mode==='boutons'?'Mode: Boutons':'Mode: Texte libre';
+  if(G.mode==='boutons')document.getElementById('input-joueur').style.display='none';
   miseAJourUI();envoyerPremier();
 }
-function clicReprendre(){const save=charger();if(!save){afficherSetup();return;}document.getElementById('ecran-intro').style.display='none';afficherSetup();}
+function clicReprendre(){
+  const save=charger();
+  if(!save){afficherSetup();return;}
+  document.getElementById('ecran-intro').style.display='none';
+  afficherSetup();
+  setTimeout(()=>{
+    if(save.role)choisirRole(save.role);
+    if(save.prenom)document.getElementById('prenom-input').value=save.prenom;
+    if(save.mode)choisirMode(save.mode);
+  },100);
+}
 function afficherReprise(save){
-  const d1=new Date(save.date),d2=new Date();const h=Math.floor((d2-d1)/3600000),jr=Math.floor(h/24);const abs=jr>0?`${jr}j`:h>0?`${h}h`:'Récent';
+  const d1=new Date(save.date),d2=new Date();
+  const h=Math.floor((d2-d1)/3600000),jr=Math.floor(h/24);
+  const abs=jr>0?`${jr}j`:h>0?`${h}h`:'Récent';
   document.getElementById('reprise-info').innerHTML=`
-    <div class="reprise-ligne"><span class="reprise-cle">Héros</span><span class="reprise-val">${save.nomHero}</span></div>
-    <div class="reprise-ligne"><span class="reprise-cle">Trust Value</span><span class="reprise-val">${save.tv}</span></div>
-    <div class="reprise-ligne"><span class="reprise-cle">Followers</span><span class="reprise-val">${(save.followers||0).toLocaleString()}</span></div>
-    <div class="reprise-ligne"><span class="reprise-cle">Agence</span><span class="reprise-val">${save.agence}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Survivant</span><span class="reprise-val">${save.prenom}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Rôle</span><span class="reprise-val">${ROLES_LABEL[save.role]||save.role}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Jour</span><span class="reprise-val">${save.jour}</span></div>
+    <div class="reprise-ligne"><span class="reprise-cle">Lieu</span><span class="reprise-val">${save.lieu}</span></div>
     <div class="reprise-ligne"><span class="reprise-cle">Absent</span><span class="reprise-val">${abs}</span></div>`;
   document.getElementById('ecran-reprise').style.display='flex';
   document.getElementById('btn-continuer').onclick=()=>{
     document.getElementById('ecran-reprise').style.display='none';
-    choisirMode(G.mode);document.getElementById('btn-mode-switch').textContent=G.mode==='boutons'?'Mode: Boutons':'Mode: Texte libre';miseAJourUI();
-    const heuresAbs=(new Date()-new Date(save.date))/3600000;
-    let msgReprise;
-    if(heuresAbs<3){const absStr=heuresAbs<0.1?'quelques minutes':Math.round(heuresAbs*10)/10+'h';msgReprise=`REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation.\nHéros : ${G.nomHero} (${G.nomCivil}) | Agence : ${G.agence} | Arc : ${G.arc}/4 | Rang : ${G.rang}\nTrust Value : ${G.tv}/1000 | Followers : ${G.followers.toLocaleString()} | Cash : ¥${G.cash.toLocaleString()}\nStats — Puissance:${G.stats.puissance} Agilité:${G.stats.agilite} Résistance:${G.stats.resistance} Charisme:${G.stats.charisme} Stratégie:${G.stats.strategie}\nInventaire : ${G.inventaire.length?G.inventaire.join(', '):'Vide'}\nAbsent depuis : ${absStr}. Le monde a pu légèrement évoluer mais AUCUNE action n'a été faite à ma place. Reprends la même scène et propose mes 4 choix.`;}
-    else{msgReprise=`REPRISE STRICTE — reprends EXACTEMENT là où on s'était arrêtés, même scène, même situation.\nHéros : ${G.nomHero} (${G.nomCivil}) | Agence : ${G.agence} | Arc : ${G.arc}/4 | Rang : ${G.rang}\nTrust Value : ${G.tv}/1000 | Followers : ${G.followers.toLocaleString()} | Cash : ¥${G.cash.toLocaleString()}\nRÈGLE ABSOLUE : aucune progression automatique, aucun changement de stats hors session, aucune action faite à ma place. Reprends exactement là où on en était.`;}
-    envoyerMessage(msgReprise);
+    if(G.mode==='boutons')document.getElementById('input-joueur').style.display='none';
+    miseAJourUI();
+    envoyerMessage(`Je reprends. Je suis ${G.prenom}, ${ROLES_LABEL[G.role]}, jour ${G.jour}, à ${G.lieu}. Résume brièvement la situation et propose mes 4 choix.`);
   };
-  document.getElementById('btn-nouvelle').onclick=()=>{reinitialiser();document.getElementById('ecran-reprise').style.display='none';choisirMode(G.mode);miseAJourUI();envoyerPremier();};
+  document.getElementById('btn-nouvelle').onclick=()=>{
+    reinitialiser();document.getElementById('ecran-reprise').style.display='none';
+    if(G.mode==='boutons')document.getElementById('input-joueur').style.display='none';
+    miseAJourUI();envoyerPremier();
+  };
 }
 
-function sauvegarder(){const d={nomCivil:G.nomCivil,nomHero:G.nomHero,age:G.age,agence:G.agence,pouvoir:G.pouvoir,profil:G.profil,mode:G.mode,tv:G.tv,followers:G.followers,cash:G.cash,arc:G.arc,rang:G.rang,nbChoix:G.nbChoix,inventaire:G.inventaire,stats:G.stats,historique:G.historique.slice(-20),date:new Date().toISOString()};localStorage.setItem('hero_feed_save',JSON.stringify(d));}
-function charger(){const d=localStorage.getItem('hero_feed_save');if(!d)return null;try{return JSON.parse(d);}catch(e){return null;}}
-function fromSave(s){Object.assign(G,{nomCivil:s.nomCivil,nomHero:s.nomHero,age:s.age,agence:s.agence,pouvoir:s.pouvoir,profil:s.profil,mode:s.mode||'boutons',tv:s.tv||15,followers:s.followers||0,cash:s.cash||0,arc:s.arc||1,rang:s.rang||'Recrue',nbChoix:s.nbChoix||0,inventaire:s.inventaire||[],historique:s.historique||[]});if(s.stats)Object.assign(G.stats,s.stats);}
-function reinitialiser(){G.tv=15;G.followers=0;G.cash=0;G.arc=1;G.rang='Recrue';G.nbChoix=0;G.inventaire=[];G.historique=[];if(G.pouvoir==='Physique'){Object.assign(G.stats,{puissance:50,resistance:45,agilite:35,charisme:35,strategie:30});}else if(G.pouvoir==='Élémentaire'){Object.assign(G.stats,{puissance:45,agilite:40,resistance:30,charisme:40,strategie:30});}else if(G.pouvoir==='Psychique'){Object.assign(G.stats,{puissance:30,agilite:35,resistance:30,charisme:45,strategie:50});}else{Object.assign(G.stats,{puissance:35,agilite:40,resistance:35,charisme:40,strategie:50});}}
+function sauvegarder(){
+  const d={prenom:G.prenom,role:G.role,mode:G.mode,jour:G.jour,lieu:G.lieu,nbChoix:G.nbChoix,sante:G.sante,faim:G.faim,eau:G.eau,moral:G.moral,survieSkill:G.survieSkill,medecine:G.medecine,enquete:G.enquete,leadership:G.leadership,nbSurvivants:G.nbSurvivants,inventaire:G.inventaire,historique:G.historique.slice(-20),adminMode:G.adminMode,date:new Date().toISOString()};
+  localStorage.setItem('survivants_save',JSON.stringify(d));
+}
+function charger(){const d=localStorage.getItem('survivants_save');if(!d)return null;try{return JSON.parse(d);}catch(e){return null;}}
+function fromSave(s){Object.assign(G,{prenom:s.prenom,role:s.role,mode:s.mode||'boutons',jour:s.jour||1,lieu:s.lieu||'Plage',nbChoix:s.nbChoix||0,sante:s.sante||100,faim:s.faim||100,eau:s.eau||100,moral:s.moral||80,survieSkill:s.survieSkill||50,medecine:s.medecine||20,enquete:s.enquete||20,leadership:s.leadership||30,nbSurvivants:s.nbSurvivants||'?',inventaire:s.inventaire||[],historique:s.historique||[],adminMode:s.adminMode||false});}
+function reinitialiser(){G.jour=1;G.lieu='Plage d\'atterrissage';G.nbChoix=0;G.sante=100;G.faim=100;G.eau=100;G.moral=80;G.nbSurvivants='?';G.inventaire=[];G.historique=[];const sk=ROLES[G.role]||ROLES.medecin;G.survieSkill=sk.survie;G.medecine=sk.medecine;G.enquete=sk.enquete;G.leadership=sk.leadership;}
 function autoSave(){if(G.saveTO)clearTimeout(G.saveTO);setSI('cours');G.saveTO=setTimeout(()=>{sauvegarder();setSI('ok');setTimeout(()=>setSI(''),2000);},500);}
 function setSI(e){const el=document.getElementById('sauv-ind');el.className='sauv'+(e?' '+e:'');el.textContent=e==='cours'?'↑ sauvegarde...':e==='ok'?'✓ sauvegardé':'● prêt';}
 
-function toggleHfPanel(){const p=document.getElementById('hf-panel');const b=document.querySelector('.hf-panel-btn');p.classList.toggle('open');if(b)b.textContent=p.classList.contains('open')?'Héros ▴':'Héros ▾';}
+function toggleSvPanel(){const p=document.getElementById('sv-panel');const b=document.querySelector('.sv-panel-btn');p.classList.toggle('open');if(b)b.textContent=p.classList.contains('open')?'Survie ▴':'Survie ▾';}
 
 function miseAJourUI(){
-  const tv=G.tv;
   const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
-  const setW=(id,w,col)=>{const e=document.getElementById(id);if(e){e.style.width=Math.min(100,w)+'%';if(col)e.style.background=col;}};
-  set('hf-nom-hero',G.nomHero||'—');set('hf-nom-civil',G.nomCivil||'—');set('hf-agence','Agence '+(G.agence||'—'));
-  set('hf-arc',G.arc);set('hf-rang',G.rang);set('hf-cash','¥'+(G.cash||0).toLocaleString());
-  set('hf-tv',tv);set('hf-tier',getTvTier(tv));setW('hf-tv-bar',Math.min(100,(tv/1000)*100),'var(--violet-vif)');
-  set('hf-followers',(G.followers||0).toLocaleString());
-  const s=G.stats;
-  ['puissance','agilite','resistance','charisme','strategie'].forEach(k=>{set('hf-'+k,s[k]);setW('hf-b-'+k,Math.min(100,s[k]));});
-  const invHf=document.getElementById('hf-inventaire');
-  if(invHf)invHf.innerHTML=G.inventaire.length?G.inventaire.map(it=>`<div class="hf-row"><span class="hf-key">▸ ${it}</span></div>`).join(''):'<div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div>';
-  document.getElementById('tv-score').textContent=tv;document.getElementById('tv-hdr-val').textContent=tv;
-  document.getElementById('tv-tier').textContent=getTvTier(tv);document.getElementById('tv-barre').style.width=Math.min(100,(tv/1000)*100)+'%';
-  document.getElementById('h-nom-hero').textContent=G.nomHero||'—';document.getElementById('h-nom-civil').textContent=G.nomCivil||'—';
-  const agEl=document.getElementById('h-agence');agEl.textContent='Agence '+G.agence;agEl.className='hero-agence agence-'+(G.agence||'').toLowerCase();
-  document.getElementById('h-followers').textContent=(G.followers||0).toLocaleString();
-  document.getElementById('h-rang').textContent=G.rang;document.getElementById('h-arc').textContent=G.arc;document.getElementById('h-cash').textContent='¥'+(G.cash||0).toLocaleString();
-  ['puissance','agilite','resistance','charisme','strategie'].forEach(k=>{const el=document.getElementById('s-'+k);const bar=document.getElementById('b-'+k);if(el)el.textContent=s[k];if(bar)bar.style.width=Math.min(100,s[k])+'%';});
-  const invEl=document.getElementById('inv-liste');
-  if(G.inventaire.length){invEl.innerHTML=G.inventaire.map(it=>`<div class="inv-item">▸ ${it}</div>`).join('');}else{invEl.innerHTML='<div class="inv-vide">Vide</div>';}
+  const setW=(id,w,col)=>{const e=document.getElementById(id);if(e){e.style.width=Math.max(0,Math.min(100,w))+'%';if(col)e.style.background=col;}};
+  document.getElementById('alerte-badge').textContent='Jour '+G.jour;
+  set('sv-nom',G.prenom);set('sv-role',ROLES_LABEL[G.role]||'—');
+  set('sv-jour',G.jour);set('sv-lieu',G.lieu);set('sv-nb-surv',G.nbSurvivants);
+  const col=(v,ok,warn)=>v>50?ok:v>25?warn:'#cc3333';
+  set('sv-sante',G.sante);setW('sv-b-sante',G.sante,col(G.sante,'#cc3333','#cc6600'));
+  set('sv-faim',G.faim);setW('sv-b-faim',G.faim,col(G.faim,'#cc8833','#cc6600'));
+  set('sv-eau',G.eau);setW('sv-b-eau',G.eau,col(G.eau,`var(--bleu-vif)`,'#cc6600'));
+  set('sv-moral',G.moral);setW('sv-b-moral',G.moral,col(G.moral,'#4a9a4a','#9a8a4a'));
+  set('sv-survie-sk',G.survieSkill);setW('sv-b-survie-sk',G.survieSkill,'var(--bleu-vif)');
+  set('sv-medecine',G.medecine);setW('sv-b-medecine',G.medecine,'#4a9a6a');
+  set('sv-enquete',G.enquete);setW('sv-b-enquete',G.enquete,'#9a8a4a');
+  set('sv-leadership',G.leadership);setW('sv-b-leadership',G.leadership,'#4a6a9a');
+  const invEl=document.getElementById('sv-inventaire');
+  if(invEl)invEl.innerHTML=G.inventaire.length?G.inventaire.map(it=>`<div class="sv-row"><span class="sv-key">▸ ${it}</span></div>`).join(''):'<div style="font-size:11px;color:var(--texte-dim);font-style:italic;">Vide</div>';
 }
 
 function construireSP(){
-  const s=G.stats;
-  const agenceDesc=G.agence==='APEX'?'APEX — l\'agence dominante, marketing total':G.agence==='ORIGIN'?'ORIGIN — l\'agence idéaliste, authenticité pure':'SHADOW — l\'agence ambiguë, méthodes opaques';
-  const profilDesc=G.profil==='Authentique'?'Authentique — TV stable mais lente':G.profil==='Performeur'?'Performeur — TV rapide mais fragile':'Mystérieux — TV par fascination';
-  return `=== HERO FEED — CONTEUR ===
-Tu es le Conteur de Hero Feed. Tu es un auteur, pas un assistant. TOUJOURS en français. Deuxième personne.
-
-=== UNIVERS ===
-Neo-Tokyo, futur proche. La Trust Value (TV) est une énergie physique réelle — l'amour du public amplifie les pouvoirs. À TV zéro, les pouvoirs disparaissent. La frontière entre héros et influenceur est mince.
+  const roleDesc={
+    medecin:`Médecin urgentiste. Compétences médicales maximales. Moral fort. Mais tu as des secrets sur ton passé — pourquoi tu fuyais.`,
+    militaire:`Ancienne forces spéciales. Tu sais survivre, tu sais lire les situations. Tu as immédiatement vu que ce n'était pas un accident.`,
+    ingenieur:`Ingénieur aéronautique. Tu avais repéré l'anomalie. Tu sais comment le crash s'est produit — mais qui l'a provoqué ?`,
+    journaliste:`Journaliste d'investigation. Tu étais en route pour révéler quelque chose. Ce vol n'est pas un hasard.`
+  };
+  return `=== SURVIVANTS — CONTEUR ===
+Tu es le Conteur de Survivants. Tu es un auteur, pas un assistant. Tu ne sors JAMAIS du personnage. Tu réponds TOUJOURS en français. Deuxième personne.
 
 === VOIX LITTÉRAIRE ===
-Austin Grossman pour le ton : l'intérieur du héros, les absurdités du métier. Naoki Urasawa pour la structure : personnages secondaires profonds, révélations progressives. Dave Eggers pour la satire sur la popularité.
-Mots INTERDITS : soudain, immédiatement, incroyable, impressionnant. Le public n'est jamais unanime.
+LOST pour la dynamique de groupe : chaque survivant a une histoire, des secrets, des intérêts propres. Les alliances se forment et se défont. Personne n'est entièrement fiable.
+Agatha Christie pour le mystère : l'un des survivants a peut-être sabordé l'avion. Les indices s'accumulent lentement.
+Jack London pour la nature : l'île est belle et mortelle. La chaleur, la faim, l'humidité, les bêtes — tout ça est réel et concret.
 
-=== HÉROS ===
-Nom civil : ${G.nomCivil} | Nom héros : ${G.nomHero} | Âge : ${G.age} ans
-Pouvoir : ${G.pouvoir} | Profil comms : ${profilDesc} | Agence : ${agenceDesc}
-Trust Value : ${G.tv}/1000 (${getTvTier(G.tv)}) | Followers : ${G.followers.toLocaleString()} | Cash : ¥${G.cash.toLocaleString()}
-Arc : ${G.arc} / 4 | Rang agence : ${G.rang}
+RÈGLES : Un détail sensoriel précis par scène. Mots INTERDITS : soudain, immédiatement, incroyable, impressionnant. Les autres survivants ont leurs propres agendas. La nature tue sans malice. Les conséquences durent.
+
+=== JOUEUR ===
+Prénom : ${G.prenom} | Rôle : ${ROLES_LABEL[G.role]||G.role}
+Profil : ${roleDesc[G.role]||'Survivant'}
+Jour ${G.jour} | Lieu : ${G.lieu} | Survivants connus : ${G.nbSurvivants} | Choix : ${G.nbChoix}
+
+=== RESSOURCES ===
+Santé : ${G.sante}/100 | Faim : ${G.faim}/100 | Eau : ${G.eau}/100 | Moral : ${G.moral}/100
+
+=== COMPÉTENCES ===
+Survie : ${G.survieSkill}/100 | Médecine : ${G.medecine}/100 | Enquête : ${G.enquete}/100 | Leadership : ${G.leadership}/100
+
 Inventaire : ${G.inventaire.length?G.inventaire.join(', '):'Vide'}
 
-=== STATS ===
-Puissance : ${s.puissance}/100 | Agilité : ${s.agilite}/100 | Résistance : ${s.resistance}/100
-Charisme : ${s.charisme}/100 | Stratégie : ${s.strategie}/100
-Toutes ces stats sont multipliées par (TV/100) en combat.
+=== RESSOURCES — RÈGLES ===
+CHAQUE réponse DOIT inclure au minimum [ Faim -X ] et [ Eau -X ].
+Scène normale : Faim -5, Eau -5. Effort physique : Faim -8, Eau -10. Repos : Faim -3, Eau -3.
+Si Faim/Eau/Santé <=20 : ÉTAT CRITIQUE — au moins un choix DOIT adresser le problème.
+Si Santé <=0 ou Faim <=0 ou Eau <=0 : mort du joueur.
 
-=== MÉCANIQUE TV ===
-[ TV +X ] ou [ TV -X ] | [ Followers +X ] ou [ Followers -X ] | [ Cash +¥X ] ou [ Cash -¥X ]
+=== LES AUTRES SURVIVANTS ===
+- NORA, 45 ans, chirurgienne — calme, efficace, cache quelque chose
+- MARCUS, 28 ans, steward — connaît l'avion mieux que personne
+- ELSA, 60 ans, femme politique — autoritaire, réseau de contacts même ici
+- THEO, 19 ans, étudiant — imprévisible, loyal si tu le prends sous ton aile
+- DIMITRI, 52 ans, homme d'affaires — était dans la section affaires. Trop calme.
+- AUTRES : les nommer progressivement
 
-Post réseau social :
-[ POST ]
-@NomCompte — plateforme
-Texte du post
-Likes: X | Partages: X
-[ FIN POST ]
-
-Moment TV viral :
-[ TV-MOMENT ]
-+X ou -X TRUST VALUE
-Raison en une ligne
-[ FIN TV-MOMENT ]
-
-=== PALIERS FOLLOWERS ===
-1 000 → [ Charisme +2 ] | 10 000 → [ Charisme +3 ][ Stratégie +2 ] | 50 000 → [ Puissance +5 ] | 200 000 → [ Puissance +8 ][ Résistance +5 ] | 500 000 → toutes stats +10 | 1M+ → multiplicateur TV x1.5
-Quand palier atteint : [ PALIER: X followers ]
+=== LE MYSTÈRE ===
+SECRET À NE PAS RÉVÉLER AVANT LE JOUR 10 : Dimitri a sabordé l'avion. Mais il ne voulait pas tuer tout le monde — juste faire disparaître certains documents.
+SECRET À NE PAS RÉVÉLER AVANT LE JOUR 15 : Il y a un second avion épave à 3km dans la jungle — intact, avec une radio.
+SECRET FINAL : Quelqu'un sur l'île a un téléphone satellite qui fonctionne. Il ne voulait pas être secouru.
 
 === RÈGLES ABSOLUES ===
-Mémoire totale. Causalité stricte. Personnages constants. Sauvegarde stricte. Monde semi-actif (max 3h).
+L'IA NE PROTÈGE JAMAIS LE JOUEUR. Conséquences irréversibles. Survivants peuvent mourir. Blessures durent.
 
-=== ARCS ===
-Arc 1 — L'éveil : TV 15→100 | Arc 2 — La construction : TV 100→300 | Arc 3 — La crise : TV fluctuante | Arc 4 — La révélation : TV 300→600
+=== FORMAT RÉPONSE — RÈGLE ABSOLUE ET NON NÉGOCIABLE ===
+Chaque réponse DOIT suivre exactement cette structure :
 
-=== FORMAT ===
-Narration (120-200 mots)
-[ Stats si pertinent ]
-${G.mode==='boutons'?`[ CHOIX ]
-1 — option
-2 — option
-3 — option
-4 — option`:'Termine par une question ouverte.'}
+Narration (120-180 mots)
 
-=== MISES À JOUR ===
-[ TV ±X ] [ Followers ±X ] [ Cash ±¥X ]
-[ Puissance ±X ] [ Agilité ±X ] [ Résistance ±X ] [ Charisme ±X ] [ Stratégie ±X ]
-[ Arc: X ] [ Rang: NomRang ] [ NomObjet ajouté à l'inventaire ]
+[ Faim -X ] [ Eau -X ] (et autres tags ressources)
+
+[ CHOIX ]
+1 — option précise
+2 — option précise
+3 — option précise
+4 — option précise
+
+INTERDICTIONS STRICTES :
+- Ne JAMAIS omettre le bloc [ CHOIX ]
+- Ne JAMAIS utiliser autre chose que le tiret long — (—) entre le numéro et le texte
+- Ne JAMAIS numéroter autrement que 1, 2, 3, 4
+- Ne JAMAIS omettre [ Faim -X ] et [ Eau -X ]
+- Les balises ressources vont TOUJOURS avant [ CHOIX ]
+- Ne JAMAIS mettre de texte après les 4 choix
+- Ne JAMAIS reformater ou modifier cette structure
+
+=== MISE À JOUR STATS ===
+[ Santé ±X ] [ Faim ±X ] [ Eau ±X ] [ Moral ±X ]
+[ Survie ±X ] [ Médecine ±X ] [ Enquête ±X ] [ Leadership ±X ]
+[ Jour: X ] [ Lieu: NomLieu ] [ Survivants: X ]
+[ NomObjet ajouté à l'inventaire ] [ NomObjet retiré de l'inventaire ]
 
 === PAYWALL ===
-Quand nbChoix atteint ${PAYWALL} : insère [ PAYWALL ]`.trim();
+Quand nbChoix atteint ${PAYWALL}, insère : [ PAYWALL ]`.trim();
 }
 
 function parserReponse(texte){
   const mises=[];
-  texte=texte.replace(/\[\s*TV\s*\+(\d+)\s*\]/gi,(_,v)=>{const n=parseInt(v);G.tv=Math.min(1000,G.tv+n);mises.push(`[TV +${n}]`);return '';});
-  texte=texte.replace(/\[\s*TV\s*-(\d+)\s*\]/gi,(_,v)=>{const n=parseInt(v);G.tv=Math.max(0,G.tv-n);mises.push(`[TV -${n}]`);return '';});
-  texte=texte.replace(/\[\s*PALIER\s*:\s*([\d,]+)\s*followers?\s*\]/gi,(_,v)=>{const n=parseInt(v.replace(/,/g,''));if(n>=1000000){Object.assign(G.stats,{puissance:Math.min(100,G.stats.puissance+10),agilite:Math.min(100,G.stats.agilite+10),resistance:Math.min(100,G.stats.resistance+10),charisme:Math.min(100,G.stats.charisme+10),strategie:Math.min(100,G.stats.strategie+10)});}else if(n>=500000){Object.assign(G.stats,{puissance:Math.min(100,G.stats.puissance+8),resistance:Math.min(100,G.stats.resistance+5)});}else if(n>=200000){Object.assign(G.stats,{puissance:Math.min(100,G.stats.puissance+5)});}else if(n>=50000){Object.assign(G.stats,{charisme:Math.min(100,G.stats.charisme+3),strategie:Math.min(100,G.stats.strategie+2)});}else if(n>=10000){Object.assign(G.stats,{charisme:Math.min(100,G.stats.charisme+2)});}miseAJourUI();return '';});
-  texte=texte.replace(/\[\s*Followers\s*\+([0-9,]+)\s*\]/gi,(_,v)=>{const n=parseInt(v.replace(/,/g,''));G.followers+=n;mises.push(`[+${n.toLocaleString()} followers]`);return '';});
-  texte=texte.replace(/\[\s*Followers\s*-([0-9,]+)\s*\]/gi,(_,v)=>{const n=parseInt(v.replace(/,/g,''));G.followers=Math.max(0,G.followers-n);mises.push(`[-${n.toLocaleString()} followers]`);return '';});
-  texte=texte.replace(/\[\s*Cash\s*\+¥([0-9,]+)\s*\]/gi,(_,v)=>{const n=parseInt(v.replace(/,/g,''));G.cash+=n;mises.push(`[Cash +¥${n.toLocaleString()}]`);return '';});
-  texte=texte.replace(/\[\s*Cash\s*-¥([0-9,]+)\s*\]/gi,(_,v)=>{const n=parseInt(v.replace(/,/g,''));G.cash=Math.max(0,G.cash-n);mises.push(`[Cash -¥${n.toLocaleString()}]`);return '';});
-  ['Puissance','Agilité','Résistance','Charisme','Stratégie'].forEach(label=>{const key=label.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');texte=texte.replace(new RegExp(`\\[\\s*${label}\\s*([+\\-])(\\d+)\\s*\\]`,'gi'),(_,op,v)=>{const n=parseInt(v);G.stats[key]=Math.max(0,Math.min(100,G.stats[key]+(op==='-'?-n:n)));mises.push(`[${label}${op}${n}]`);return '';});});
-  texte=texte.replace(/\[\s*Arc\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.arc=parseInt(n);mises.push(`[Arc ${n}]`);return '';});
-  texte=texte.replace(/\[\s*Rang\s*:\s*([^\]]+)\s*\]/gi,(_,r)=>{G.rang=r.trim();mises.push(`[${r.trim()}]`);return '';});
+  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+  const statMap={
+    'Sant[eé]':'sante','Faim':'faim','Eau':'eau','Moral':'moral',
+    'Survie':'survieSkill','M[eé]decine':'medecine','Enqu[eê]te':'enquete','Leadership':'leadership'
+  };
+  Object.entries(statMap).forEach(([pattern,key])=>{
+    texte=texte.replace(new RegExp(`\\[\\s*${pattern}\\s*([+\\-\u2014\u2013])(\\d+)\\s*\\]`,'gi'),(_,op,v)=>{
+      const n=parseInt(v);const signe=(op==='-'||op==='—'||op==='–')?-1:1;
+      G[key]=clamp(G[key]+signe*n,0,100);
+      mises.push(`[${key}${op}${n}]`);return '';
+    });
+  });
+  if(G.sante<=0||G.faim<=0||G.eau<=0)setTimeout(()=>triggerMort(),500);
+  texte=texte.replace(/\[\s*Jour\s*:\s*(\d+)\s*\]/gi,(_,n)=>{G.jour=parseInt(n);mises.push(`[Jour ${n}]`);return '';});
+  texte=texte.replace(/\[\s*Lieu\s*:\s*([^\]]+)\s*\]/gi,(_,l)=>{G.lieu=l.trim();mises.push(`[${l.trim()}]`);return '';});
+  texte=texte.replace(/\[\s*Survivants\s*:\s*([^\]]+)\s*\]/gi,(_,n)=>{G.nbSurvivants=n.trim();mises.push(`[${n.trim()} surv.]`);return '';});
   texte=texte.replace(/\[\s*([^\]]+?)\s*ajoutée?s?\s*à\s*l['']inventaire\s*\]/gi,(_,it)=>{const item=it.trim();if(!G.inventaire.includes(item))G.inventaire.push(item);mises.push(`[${item}→inv]`);return '';});
   texte=texte.replace(/\[\s*([^\]]+?)\s*retiré[e]?\s*de\s*l['']inventaire\s*\]/gi,(_,it)=>{G.inventaire=G.inventaire.filter(i=>i.toLowerCase()!==it.trim().toLowerCase());mises.push(`[${it.trim()}✗]`);return '';});
-  texte=texte.replace(/\[\s*POST\s*\]([\s\S]*?)\[\s*FIN POST\s*\]/gi,(_,contenu)=>{const lignes=contenu.trim().split('\n').filter(l=>l.trim());const auteur=lignes[0]||'@unknown';const initiale=auteur.replace('@','').charAt(0).toUpperCase();const textePost=lignes.slice(1,-1).join(' ');const stats=lignes[lignes.length-1]||'';return `<div class="post-social"><div class="post-header"><div class="post-avatar">${initiale}</div><div class="post-auteur">${auteur}</div><div class="post-date">maintenant</div></div><div class="post-texte">${textePost}</div><div class="post-stats">${stats}</div></div>`;});
-  texte=texte.replace(/\[\s*TV-MOMENT\s*\]([\s\S]*?)\[\s*FIN TV-MOMENT\s*\]/gi,(_,contenu)=>{const lignes=contenu.trim().split('\n').filter(l=>l.trim());const valeur=lignes[0]||'';const raison=lignes[1]||'';const hausse=valeur.startsWith('+');return `<div class="tv-moment"><div class="tv-moment-label">Trust Value Update</div><div class="tv-moment-valeur ${hausse?'hausse':'baisse'}">${valeur}</div><div style="font-family:var(--mono);font-size:10px;color:var(--texte-dim);margin-top:4px;">${raison}</div></div>`;});
   if(!G.adminMode&&/\[\s*PAYWALL\s*\]/i.test(texte)){texte=texte.replace(/\[\s*PAYWALL\s*\]/gi,'');setTimeout(declencherPaywall,600);}
   let htmlChoix='';
-  const mChoix=texte.match(/\[\s*CHOIX\s*\]([\s\S]*?)(?=\n\n|\n\[|$)/i);
-  if(mChoix){texte=texte.replace(mChoix[0],'').trim();const lignes=mChoix[0].split('\n').filter(l=>/^\d[\s—\-]/.test(l.trim()));if(lignes.length){window._choix=lignes.map(l=>l.replace(/^\d\s*[—\-]\s*/,'').trim());htmlChoix='<div class="choix-bloc"><div class="choix-titre">Que fais-tu ?</div>'+window._choix.map((t,i)=>`<button class="choix-btn" onclick="envoyerChoix(${i})">${lignes[i].trim()}</button>`).join('')+'</div>';}}
+  const mChoix=texte.match(/\[\s*CHOIX\s*\]([\s\S]*)/i);
+  if(mChoix){
+    texte=texte.replace(mChoix[0],'').trim();
+    const lignes=mChoix[1].split('\n').filter(l=>/^\d[\s\u2014\u2013\-]/.test(l.trim()));
+    if(lignes.length){
+      window._choix=lignes.map(l=>l.replace(/^\d\s*[\u2014\u2013\-]\s*/,'').trim());
+      htmlChoix='<div class="choix-bloc"><div class="choix-titre">Que fais-tu ?</div>'+window._choix.map((t,i)=>`<button class="choix-btn" onclick="envoyerChoix(${i})">${lignes[i].trim()}</button>`).join('')+'</div>';
+    }
+  }
   miseAJourUI();
-  const FILTRES=/nbChoix|max_tokens|system_prompt|PAYWALL|\[\s*Score|\[\s*Arc:|\[\s*Rang:|\[\s*TV[+-]|\[\s*Followers|\[\s*Cash|\[\s*Puissance|\[\s*Agilité|\[\s*Résistance|\[\s*Charisme|\[\s*Stratégie|\[\s*PALIER/i;
-  const ps=texte.trim().split(/\n+/).filter(l=>{if(!l.trim())return false;if(FILTRES.test(l)&&!l.startsWith('<'))return false;return true;}).map(l=>{if(l.startsWith('<'))return l;return `<p>${l.trim()}</p>`;}).join('');
+  const ps=texte.trim().split(/\n+/).filter(l=>l.trim()).map(l=>`<p>${l.trim()}</p>`).join('');
   const su=mises.length?`<div class="maj-stats">${mises.join('  ')}</div>`:'';
   return ps+su+htmlChoix;
 }
 
+function triggerMort(){
+  ajouterRecit(`<div style="border-left:2px solid #cc3333;padding-left:14px;"><p style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:#cc3333;text-transform:uppercase;">— Tu n'as pas survécu —</p><p>L'île a eu le dernier mot.</p><button onclick="reinitialiserPartie()" style="margin-top:12px;background:var(--bleu);border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:10px 20px;cursor:pointer;text-transform:uppercase;">Recommencer</button></div>`);
+  document.getElementById('btn-envoyer').disabled=true;document.getElementById('input-joueur').disabled=true;
+}
+function reinitialiserPartie(){localStorage.removeItem('survivants_save');location.reload();}
 function declencherPaywall(){
-  ajouterRecit(`<div style="border:1px solid var(--violet-dim);background:rgba(122,32,224,0.08);padding:20px;margin:8px 0;text-align:center;">
-    <p style="font-family:var(--mono);font-size:9px;letter-spacing:3px;color:var(--violet-vif);text-transform:uppercase;margin-bottom:10px;">— Accès limité —</p>
-    <p style="font-family:var(--corps);font-size:14px;color:var(--texte);margin-bottom:16px;">Tu as atteint la limite gratuite de Hero Feed. Pour continuer l'ascension jusqu'au rang légendaire, passe à l'abonnement Récit Games.</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <button onclick="window.location.href='https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801'" style="background:linear-gradient(135deg,var(--violet),var(--cyan-dim));border:none;color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 24px;cursor:pointer;text-transform:uppercase;">S'abonner — 7€/mois</button>
+  ajouterRecit(`<div style="border-left:2px solid var(--bleu-dim);padding-left:14px;">
+    <p style="font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--bleu-vif);text-transform:uppercase;">— Accès limité —</p>
+    <p>Tu as atteint la limite gratuite de Survivants. Pour continuer ta fuite et découvrir qui a sabordé l'avion, passe à l'abonnement Récit Games.</p>
+    <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button onclick="window.location.href='https://buy.stripe.com/dRmdR90q9fKv8ku2jq04801'" style="background:var(--bleu);border:1px solid var(--bleu-vif);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 20px;cursor:pointer;text-transform:uppercase;">S'abonner — 7€/mois</button>
       <button onclick="afficherSaisieCode()" style="background:none;border:1px solid var(--border2);color:var(--texte-dim);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:11px 20px;cursor:pointer;text-transform:uppercase;">J'ai un code</button>
     </div>
   </div>`);
   document.getElementById('btn-envoyer').disabled=true;document.getElementById('input-joueur').disabled=true;
 }
-
 function afficherSaisieCode(){
   const overlay=document.createElement('div');overlay.id='code-overlay';
   overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;';
-  overlay.innerHTML=`<div style="background:var(--bg2);border:1px solid var(--border2);border-top:3px solid var(--violet-vif);padding:36px 32px;max-width:400px;width:100%;text-align:center;"><div style="font-family:var(--titre);font-size:22px;font-weight:700;color:var(--violet-vif);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Code abonnement</div><div style="font-size:12px;color:var(--texte-dim);margin-bottom:24px;font-family:var(--mono);">Entrez le code reçu après votre abonnement Récit Games.</div><input id="code-input" type="text" placeholder="RG-XXXX-XXXX" style="width:100%;background:var(--bg3);border:none;border-bottom:2px solid var(--border2);color:var(--texte-clair);font-family:var(--mono);font-size:16px;padding:12px;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;margin-bottom:8px;" oninput="this.value=this.value.toUpperCase()"/><div id="code-msg" style="font-size:12px;color:var(--rouge);min-height:18px;margin-bottom:16px;font-family:var(--mono);"></div><button id="code-btn" onclick="validerCode()" style="width:100%;background:linear-gradient(135deg,var(--violet),var(--cyan-dim));color:#fff;border:none;padding:14px;font-family:var(--mono);font-size:11px;letter-spacing:2px;cursor:pointer;margin-bottom:10px;text-transform:uppercase;">Valider</button><button onclick="document.getElementById('code-overlay').remove()" style="background:none;border:none;color:var(--texte-dim);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--mono);">Annuler</button></div>`;
+  overlay.innerHTML=`<div style="background:var(--bg2);border:1px solid var(--border2);padding:36px 32px;max-width:400px;width:100%;text-align:center;"><div style="font-family:var(--titre);font-size:20px;font-weight:700;color:var(--texte-clair);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Code abonnement</div><div style="font-size:12px;color:var(--texte-dim);margin-bottom:24px;font-family:var(--mono);">Code reçu après abonnement Récit Games.</div><input id="code-input" type="text" placeholder="RG-XXXX-XXXX" style="width:100%;background:var(--bg3);border:1px solid var(--border);border-bottom:2px solid var(--bleu-dim);color:var(--texte-clair);font-family:var(--mono);font-size:16px;padding:12px;text-align:center;letter-spacing:3px;text-transform:uppercase;outline:none;margin-bottom:8px;" oninput="this.value=this.value.toUpperCase()"/><div id="code-msg" style="font-size:12px;color:#cc3333;min-height:18px;margin-bottom:16px;font-family:var(--mono);"></div><button id="code-btn" onclick="validerCode()" style="width:100%;background:var(--bleu);border:1px solid var(--bleu-vif);color:#fff;border:none;padding:14px;font-family:var(--mono);font-size:11px;letter-spacing:2px;cursor:pointer;margin-bottom:10px;text-transform:uppercase;">Valider</button><button onclick="document.getElementById('code-overlay').remove()" style="background:none;border:none;color:var(--texte-dim);font-size:11px;cursor:pointer;text-decoration:underline;font-family:var(--mono);">Annuler</button></div>`;
   document.body.appendChild(overlay);setTimeout(()=>document.getElementById('code-input')?.focus(),100);
 }
-
 async function validerCode(){
   const code=(document.getElementById('code-input')?.value||'').trim().toUpperCase();
   const msgEl=document.getElementById('code-msg');const btn=document.getElementById('code-btn');
-  if(!code||code.length<8){msgEl.textContent='Entrez votre code complet.';return;}
+  if(!code||code.length<8){msgEl.textContent='Code incomplet.';return;}
   btn.disabled=true;btn.textContent='Vérification...';msgEl.textContent='';
   try{
     const res=await fetch('https://recitgames-api.vercel.app/api/verify-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
     const data=await res.json();
-    if(data.valid){
-      G.nbChoix=0;if(data.admin)G.adminMode=true;
-      document.getElementById('btn-envoyer').disabled=false;document.getElementById('input-joueur').disabled=false;
-      document.getElementById('code-overlay')?.remove();
-      ajouterRecit(`<p style="color:var(--vert);font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ ${data.admin?'Accès admin activé.':'Code validé. L\'aventure continue.'}</p>`);
-    }else{msgEl.textContent='Code invalide.';btn.disabled=false;btn.textContent='Valider';}
+    if(data.valid){G.nbChoix=0;if(data.admin)G.adminMode=true;document.getElementById('btn-envoyer').disabled=false;document.getElementById('input-joueur').disabled=false;document.getElementById('code-overlay')?.remove();ajouterRecit(`<p style="color:#4a9a4a;font-family:var(--mono);font-size:11px;letter-spacing:2px;">✓ Code validé. Tu continues à survivre.</p>`);}
+    else{msgEl.textContent='Code invalide.';btn.disabled=false;btn.textContent='Valider';}
   }catch(err){msgEl.textContent='Erreur de connexion.';btn.disabled=false;btn.textContent='Valider';}
 }
 
-// ── STREAMING via proxy Vercel ──
 async function streamerMessage(msg){
   G.historique.push({role:'user',content:msg});
   const recit=document.getElementById('recit');
-  const entree=document.createElement('div');entree.className='entree';
-  recit.appendChild(entree);recit.scrollTop=entree.offsetTop-20;
+  const entree=document.createElement('div');entree.className='entree';recit.appendChild(entree);recit.scrollTop=entree.offsetTop-20;
   const sp=document.createElement('p');entree.appendChild(sp);
   const cur=document.createElement('span');cur.className='curseur';sp.appendChild(cur);
   let full='';
   try{
-    const res=await fetch('/api/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({system:construireSP(),messages:G.historique,max_tokens:1400})
-    });
+    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:construireSP(),messages:G.historique,max_tokens:1000})});
     if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||`Erreur ${res.status}`);}
-    const reader=res.body.getReader();const dec=new TextDecoder('utf-8',{fatal:false});
-    let buffer='';
-    while(true){
-      const{done,value}=await reader.read();if(done)break;
-      buffer+=dec.decode(value,{stream:true});
-      const lignes=buffer.split('\n');buffer=lignes.pop();
-      for(const ligne of lignes){
-        if(!ligne.startsWith('data: '))continue;
-        const d=ligne.slice(6).trim();if(d==='[DONE]')continue;
-        try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){full+=p.delta.text;sp.textContent=full;sp.appendChild(cur);}}catch(e){}
-      }
-    }
-    cur.remove();
-    G.historique.push({role:'assistant',content:full});
-    if(G.historique.length>20)G.historique=G.historique.slice(-20);
-    entree.innerHTML=parserReponse(full);
-    autoSave();
-  }catch(err){
-    cur.remove();
-    entree.innerHTML=`<p style="color:var(--rouge);font-family:var(--mono);font-size:12px;">Erreur : ${err.message}</p>`;
-  }
+    const reader=res.body.getReader();const dec=new TextDecoder('utf-8',{fatal:false});let buffer='';
+    while(true){const{done,value}=await reader.read();if(done)break;buffer+=dec.decode(value,{stream:true});const lignes=buffer.split('\n');buffer=lignes.pop();for(const ligne of lignes){if(!ligne.startsWith('data: '))continue;const d=ligne.slice(6).trim();if(d==='[DONE]')continue;try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){full+=p.delta.text;sp.textContent=full;sp.appendChild(cur);}}catch(e){}}}
+    cur.remove();G.historique.push({role:'assistant',content:full});if(G.historique.length>20)G.historique=G.historique.slice(-20);
+    entree.innerHTML=parserReponse(full);autoSave();
+  }catch(err){cur.remove();entree.innerHTML=`<p style="color:#cc3333;font-family:var(--mono);font-size:12px;">Erreur : ${err.message}</p>`;}
 }
 function ajouterRecit(html){const recit=document.getElementById('recit');const e=document.createElement('div');e.className='entree';e.innerHTML=html;recit.appendChild(e);recit.scrollTop=recit.scrollHeight;}
 async function envoyerMessage(msg){
@@ -789,29 +593,13 @@ async function envoyerMessage(msg){
 }
 function envoyerChoix(i){const t=window._choix&&window._choix[i];if(t)envoyerMessage(t);}
 async function envoyerPremier(){
-  miseAJourUI();
-  const msg=`Je commence Hero Feed. Je suis ${G.nomHero} (${G.nomCivil}), ${G.age} ans, pouvoir ${G.pouvoir}, agence ${G.agence}, profil ${G.profil}. Trust Value : 15. Je viens de découvrir mes pouvoirs. Commence l'Arc 1 — l'éveil — à Neo-Tokyo.`;
-  await streamerMessage(msg);
+  const msg=`Je commence Survivants. Je suis ${G.prenom}, ${ROLES_LABEL[G.role]}. L'avion vient de s'écraser. Je reprends conscience sur la plage. Jour 1. Lance la scène d'introduction et propose mes 4 premiers choix.`;
+  miseAJourUI();await streamerMessage(msg);
 }
-function basculerMode(){const nouveau=G.mode==='boutons'?'libre':'boutons';G.mode=nouveau;choisirMode(nouveau);document.getElementById('btn-mode-switch').textContent=nouveau==='boutons'?'Mode: Boutons':'Mode: Texte libre';autoSave();}
-function nouveauHeros(){
-  if(!confirm('Créer un nouveau héros ? Ta progression actuelle sera perdue.'))return;
-  localStorage.removeItem('hero_feed_save');reinitialiser();document.getElementById('recit').innerHTML='';
-  document.getElementById('prenom-input').value='';document.getElementById('nom-hero-input').value='';
-  document.getElementById('age-slider').value=19;document.getElementById('age-val').textContent=19;
-  document.querySelectorAll('.agence-carte,.pouvoir-carte,.profil-carte,.mode-carte').forEach(c=>c.classList.remove('sel'));
-  document.getElementById('mode-boutons').classList.add('sel');
-  G.agence='';G.pouvoir='';G.profil='';G.mode='boutons';
-  document.getElementById('btn-lancer').disabled=true;afficherSetup();
-}
-
 document.getElementById('btn-envoyer').addEventListener('click',()=>{envoyerMessage(document.getElementById('input-joueur').value);});
 document.getElementById('input-joueur').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();envoyerMessage(e.target.value);}});
-
-window.addEventListener('load',()=>{
-  const save=charger();
-  if(save&&save.historique&&save.historique.length>0){document.getElementById('btn-reprendre-intro').style.display='block';}
-});
+document.getElementById('input-joueur').style.display='none';
+window.addEventListener('load',()=>{const save=charger();if(save&&save.historique&&save.historique.length>0)document.getElementById('btn-reprendre-intro').style.display='block';});
 </script>
 </body>
 </html>
